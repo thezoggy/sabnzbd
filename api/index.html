@@ -1,0 +1,3614 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>SABnzbd API</title>
+
+    <link rel="stylesheet" type="text/css" href="./css/normalize.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/main.css"/>
+
+    <script type="text/javascript" src="./js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.tools-1.2.6.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.bookmarkscroll.js"></script>
+    <script type="text/javascript" src="./js/jquery.scrolltopcontrol-1.1.js"></script>
+
+  </head>
+  <body>
+  <a name="top"></a>
+
+  <div id="container">
+
+    <a name="apioverview"></a>
+    <h1 class="header">
+        <img src="./img/sabnzbd.png" alt="API Overview"/><br/>
+    </h1>
+    <div id="api-overview">
+        <div class="content">
+          <table class="views-table">
+            <thead>
+              <tr>
+                <th class="views-field-title">
+                  Command
+                </th>
+                <th class="views-field-body">
+                  Description
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#addlocalfile">addlocalfile</a>
+                </td>
+                <td class="views-field-body">
+                  Add local .nzb to the queue.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#browse">browse</a>
+                </td>
+                <td class="views-field-body">
+                  API function for the path browser dialog.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#disconnect">disconnect</a>
+                </td>
+                <td class="views-field-body">
+                  Force disconnect server connections in SABnzbd.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#get_cats">get_cats</a>
+                </td>
+                <td class="views-field-body">
+                  Displays the categories in SABnzbd.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#get_config">get_config</a>
+                </td>
+                <td class="views-field-body">
+                  Displays the current sabnzbd.ini config.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#get_files">get_files</a>
+                </td>
+                <td class="views-field-body">
+                  Displays the files for an item in the queue.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#get_scripts">get_scripts</a>
+                </td>
+                <td class="views-field-body">
+                  Displays the scripts in SABnzbd.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#history">history</a>
+                </td>
+                <td class="views-field-body">
+                  Displays the SABnzbd history.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#options">options</a>
+                </td>
+                <td class="views-field-body">
+                  Displays the SABnzbd tools options.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#osx_icon">osx_icon</a>
+                </td>
+                <td class="views-field-body">
+                  Set the SABnzbd config value of the OS X SABnzbd menu icon.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#pause">pause</a>
+                </td>
+                <td class="views-field-body">
+                  Pause the SABnzbd queue (global).
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#qstatus">qstatus</a>
+                </td>
+                <td class="views-field-body">
+                  A barebones output of the SABnzbd queue.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#queue">queue</a>
+                </td>
+                <td class="views-field-body">
+                  Display the SABnzbd queue.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#queuedelete">queue.delete</a>
+                </td>
+                <td class="views-field-body">
+                  Delete an item from the SABnzbd queue.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#restart">restart</a>
+                </td>
+                <td class="views-field-body">
+                  Restart SABnzbd.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#resume">resume</a>
+                </td>
+                <td class="views-field-body">
+                  Resume the SABnzbd queue (global).
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#rss_now">rss_now</a>
+                </td>
+                <td class="views-field-body">
+                  Obtain RSS feed items in SABnzbd.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#shutdown">shutdown</a>
+                </td>
+                <td class="views-field-body">
+                  Shut down SABnzbd.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#test_email">test_email</a>
+                </td>
+                <td class="views-field-body">
+                  Send a test e-mail notification using the settings defined in SABnzbd.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#test_notif">test_notif</a>
+                </td>
+                <td class="views-field-body">
+                  Send a test Growl notification using the settings defined in SABnzbd.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#version">version</a>
+                </td>
+                <td class="views-field-body">
+                  Display the version of SABnzbd currently running.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#warnings">warnings</a>
+                </td>
+                <td class="views-field-body">
+                  Display the current warnings in SABnzbd.
+                </td>
+              </tr>
+
+
+            <thead>
+              <tr>
+                <th style="border-bottom: 0;">&nbsp;</th>
+                <th style="border-bottom: 0;">&nbsp;</th>
+              </tr>
+              <tr>
+                <th class="views-field-title">
+                  Output Formats
+                </th>
+                <th class="views-field-body">
+                  Description
+                </th>
+              </tr>
+            </thead>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#output_json">json</a>
+                </td>
+                <td class="views-field-body">
+                  Return the output in the JSON format.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#output_xml">xml</a>
+                </td>
+                <td class="views-field-body">
+                  Return the output in the XML format.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#output_plain">text</a>
+                </td>
+                <td class="views-field-body">
+                  Return the output in the plain text format.
+                </td>
+              </tr>
+
+
+            <thead>
+              <tr>
+                <th style="border-bottom: 0;">&nbsp;</th>
+                <th style="border-bottom: 0;">&nbsp;</th>
+              </tr>
+              <tr>
+                <th class="views-field-title">
+                  Miscellaneous
+                </th>
+                <th class="views-field-body">
+                  Description
+                </th>
+              </tr>
+            </thead>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#apiadvanced">advanced api</a>
+                </td>
+                <td class="views-field-body">
+                  Advanced usage of the API.
+                </td>
+              </tr>
+              <tr>
+                <td class="views-field-title">
+                  <a href="#apidisclaimer">disclaimer</a>
+                </td>
+                <td class="views-field-body">
+                  Disclaimer about the API.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+    <br/>
+    <div id="api-content">
+
+        <a name="addlocalfile"></a>
+            <h1 class="title">
+                addlocalfile
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-10<br/>
+                <span class="version">added: <b>0.5?</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    Add a local file containing a .nzb to be processed and added to the SABnzbd queue. Default post-processing options are used unless specififed.<br/>
+                    Returns a status code when processed:<br/>
+                    for nzb/gz : -2==Error/retry, -1==Error, 0==OK, 1==OK-but-ignorecannot-delete<br/>
+                    for zip/rar : -1==Error/Retry, 0==OK, 1==Ignore
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                          <span class="param">name <span>required</span></span>
+                          <p>
+                            valid location to a single nzb to process (accepts .zip, .rar, .gz. or .nzb)
+                          </p>
+                        </div>
+                        <div class="parameter">
+                          <span class="param">pp <span>optional</span></span>
+                          <p>
+                            override default pp option
+                          </p>
+                        </div>
+                        <div class="parameter">
+                          <span class="param">script <span>optional</span></span>
+                          <p>
+                            override default script
+                          </p>
+                        </div>
+                        <div class="parameter">
+                          <span class="param">cat <span>optional</span></span>
+                          <p>
+                            override default category
+                          </p>
+                        </div>
+                        <div class="parameter">
+                          <span class="param">priority <span>optional</span></span>
+                          <p>
+                            override default priority
+                          </p>
+                        </div>
+                        <div class="parameter">
+                          <span class="param">nzbname <span>optional</span></span>
+                          <p>
+                            only used for non archived files ( .nzb / .gz )
+                          </p>
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=addlocalfile&amp;name=D:\file.ext</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "status": 0,
+    "nzo_ids": [
+        "SABnzbd_nzo_ocz8vt"
+    ]
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;result&gt;
+  &lt;status&gt;0&lt;/status&gt;
+  &lt;nzo_ids&gt;
+    &lt;item&gt;SABnzbd_nzo_ocz8vt&lt;/item&gt;
+  &lt;/nzo_ids&gt;
+&lt;/result&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+
+        <a name="browse"></a>
+            <h1 class="title">
+                browse
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-10<br/>
+                <span class="version">added: <b>0.7</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    API function for the path browser dialog.
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                          <span class="param">name <span>optional</span></span>
+                          <p>
+                            valid path
+                          </p>
+                        </div>
+                        <div class="parameter">
+                          <span class="param">compact <span>optional</span></span>
+                          <p>
+                            <span class="default">[</span>0<span class="default">], 1</span>
+                          </p>
+                          <p>
+                            used for the autocomplete function
+                          </p>
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=browse&amp;name=S:\</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "paths": [
+        {
+            "current_path": "S:\\"
+        },
+        {
+            "path": "S:\\$RECYCLE.BIN",
+            "name": "$RECYCLE.BIN"
+        },
+        {
+            "path": "S:\\System Volume Information",
+            "name": "System Volume Information"
+        },
+        {
+            "path": "S:\\TV",
+            "name": "TV"
+        },
+        {
+            "path": "S:\\TV-Asian",
+            "name": "TV-Asian"
+        },
+        {
+            "path": "S:\\TV-Canceled",
+            "name": "TV-Canceled"
+        },
+        {
+            "path": "S:\\TV-Misc",
+            "name": "TV-Misc"
+        },
+        {
+            "path": "",
+            "name": ".."
+        }
+    ]
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;paths&gt;
+  &lt;slot&gt;
+    &lt;current_path&gt;S:\&lt;/current_path&gt;
+  &lt;/slot&gt;
+  &lt;slot&gt;
+    &lt;path&gt;S:\$RECYCLE.BIN&lt;/path&gt;
+    &lt;name&gt;$RECYCLE.BIN&lt;/name&gt;
+  &lt;/slot&gt;
+  &lt;slot&gt;
+    &lt;path&gt;S:\System Volume Information&lt;/path&gt;
+    &lt;name&gt;System Volume Information&lt;/name&gt;
+  &lt;/slot&gt;
+  &lt;slot&gt;
+    &lt;path&gt;S:\TV&lt;/path&gt;
+    &lt;name&gt;TV&lt;/name&gt;
+  &lt;/slot&gt;
+  &lt;slot&gt;
+    &lt;path&gt;S:\TV-Asian&lt;/path&gt;
+    &lt;name&gt;TV-Asian&lt;/name&gt;
+  &lt;/slot&gt;
+  &lt;slot&gt;
+    &lt;path&gt;S:\TV-Canceled&lt;/path&gt;
+    &lt;name&gt;TV-Canceled&lt;/name&gt;
+  &lt;/slot&gt;
+  &lt;slot&gt;
+    &lt;path&gt;S:\TV-Misc&lt;/path&gt;
+    &lt;name&gt;TV-Misc&lt;/name&gt;
+  &lt;/slot&gt;
+  &lt;slot&gt;
+    &lt;path&gt;&lt;/path&gt;
+    &lt;name&gt;..&lt;/name&gt;
+  &lt;/slot&gt;
+&lt;/paths&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+
+        <a name="disconnect"></a>
+            <h1 class="title">
+                disconnect
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-10<br/>
+                <span class="version">added: <b>0.5?</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    Force disconnect server connections in SABnzbd.
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=disconnect</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "status": true
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;result&gt;
+    &lt;status>True&lt;/status&gt;
+&lt;/result&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+
+        <a name="get_cats"></a>
+            <h1 class="title">
+                get_cats
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-05<br/>
+                <span class="version">added: <b>0.4</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    Displays the categories in SABnzbd.
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=get_cats</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "categories": [
+        "*",
+        "anime",
+        "apps",
+        "books",
+        "consoles",
+        "couchpotato",
+        "emulation",
+        "games",
+        "misc",
+        "movies",
+        "music",
+        "pda",
+        "resources",
+        "tv"
+    ]
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;categories&gt;
+    &lt;category>*&lt;/category&gt;
+    &lt;category>anime&lt;/category&gt;
+    &lt;category>apps&lt;/category&gt;
+    &lt;category>books&lt;/category&gt;
+    &lt;category>consoles&lt;/category&gt;
+    &lt;category>couchpotato&lt;/category&gt;
+    &lt;category>emulation&lt;/category&gt;
+    &lt;category>games&lt;/category&gt;
+    &lt;category>misc&lt;/category&gt;
+    &lt;category>movies&lt;/category&gt;
+    &lt;category>music&lt;/category&gt;
+    &lt;category>pda&lt;/category&gt;
+    &lt;category>resources&lt;/category&gt;
+    &lt;category>tv&lt;/category&gt;
+&lt;/categories&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+        <a name="get_config"></a>
+            <h1 class="title">
+                get_config
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-05<br/>
+                <span class="version">added: <b>0.?</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    Displays the current sabnzbd.ini .
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=get_config</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "config": {
+        "newzbin": {
+            "username": "",
+            "bookmark_rate": 60,
+            "url": "www.newzbin2.es",
+            "bookmarks": 0,
+            "password": "",
+            "unbookmark": 1
+        },
+        "growl": {
+            "growl_enable": 1
+        },
+        "logging": {
+            "log_new": 0,
+            "max_log_size": "5242880",
+            "log_level": 2,
+            "log_backups": 5,
+            "enable_cherrypy_logging": 0
+        },
+        "nzbmatrix": {
+            "username": "nzbmatrix_user",
+            "apikey": "22222222222222222222222222222222",
+            "del_bookmark": 1
+        },
+        "rss": [
+            {
+                "pp": "",
+                "enable": 0,
+                "name": "nzb.su",
+                "script": "",
+                "uri": "http://nzb.su/rss?t=-2&amp;dl=1&amp;i=1576&amp;r=11111111111111111111111111111111&amp;del=1",
+                "cat": "",
+                "priority": -100,
+                "filter0": [
+                    "",
+                    "",
+                    "",
+                    "A",
+                    "*",
+                    "-100"
+                ]
+            },
+            {
+                "filter5": [
+                    "",
+                    "",
+                    "",
+                    "R",
+                    "-NAVER",
+                    "-100"
+                ],
+                "pp": "",
+                "enable": 0,
+                "name": "nzb.su audio",
+                "script": "Default",
+                "uri": "http://nzb.su/rss?t=3000&amp;dl=1&amp;i=1576&amp;r=11111111111111111111111111111111",
+                "cat": "music",
+                "priority": -100,
+                "filter4": [
+                    "",
+                    "",
+                    "",
+                    "R",
+                    "-FLAC",
+                    "-100"
+                ],
+                "filter7": [
+                    "",
+                    "",
+                    "",
+                    "R",
+                    "-CABLE-",
+                    "-100"
+                ],
+                "filter6": [
+                    "",
+                    "",
+                    "",
+                    "R",
+                    "Proton",
+                    "-100"
+                ],
+                "filter1": [
+                    "",
+                    "",
+                    "",
+                    "A",
+                    "symphony",
+                    "-100"
+                ],
+                "filter0": [
+                    "",
+                    "",
+                    "",
+                    "M",
+                    "-2012-",
+                    "-100"
+                ],
+                "filter3": [
+                    "",
+                    "",
+                    "",
+                    "A",
+                    "essential",
+                    "-100"
+                ],
+                "filter2": [
+                    "",
+                    "",
+                    "",
+                    "A",
+                    "MonoPoly",
+                    "-100"
+                ],
+                "filter8": [
+                    "",
+                    "",
+                    "",
+                    "A",
+                    "*",
+                    "-100"
+                ]
+            }
+        ],
+        "misc": {
+            "queue_complete": "",
+            "https_port": "9090",
+            "folder_max_length": 128,
+            "folder_rename": 1,
+            "allow_64bit_tools": 1,
+            "password_file": "",
+            "rss_rate": 300,
+            "email_server": "smtp.gmail.com:587",
+            "cleanup_list": [
+                ".txt"
+            ],
+            "email_rss": 0,
+            "allow_streaming": 0,
+            "cache_limit": "128M",
+            "ignore_unrar_dates": 0,
+            "par_option": "",
+            "web_color": "white",
+            "api_warnings": 1,
+            "tv_sort_string": "%sn/Season %s/%sn - S%0sE%0e - %en.%ext",
+            "web_color2": "gold",
+            "dirscan_speed": 5,
+            "enable_filejoin": 1,
+            "create_group_folders": 0,
+            "api_key": "1234567890abcdef0987654321fedcba",
+            "never_repair": 0,
+            "no_penalties": 0,
+            "username": "xbmc",
+            "pause_on_pwrar": 1,
+            "download_dir": "downloads/incomplete",
+            "size_limit": "",
+            "enable_par_cleanup": 1,
+            "bandwidth_limit": 0,
+            "safe_postproc": 1,
+            "disable_api_key": 0,
+            "cache_dir": "cache",
+            "email_to": [
+                "username@gmail.com"
+            ],
+            "complete_dir": "downloads/complete",
+            "rss_filenames": 0,
+            "password": "******",
+            "replace_illegal": 1,
+            "permissions": "",
+            "par2_multicore": 1,
+            "ignore_wrong_unrar": 0,
+            "warned_old_queue": 0,
+            "enable_tsjoin": 1,
+            "check_new_rel": 1,
+            "auto_disconnect": 1,
+            "use_pickle": 0,
+            "enable_https": 0,
+            "enable_date_sorting": 0,
+            "no_dupes": 2,
+            "top_only": 1,
+            "quick_check": 1,
+            "movie_sort_string": "%title (%y)/%title (%y).%ext",
+            "email_from": "username@gmail.com",
+            "replace_dots": 0,
+            "movie_extra_folder": 0,
+            "email_endjob": 2,
+            "tv_categories": [ ],
+            "unpack_check": 1,
+            "email_account": "username@gmail.com",
+            "login_realm": "SABnzbd",
+            "movie_sort_extra": " CD%1",
+            "replace_spaces": 1,
+            "ionice": "",
+            "enable_unzip": 1,
+            "download_free": "",
+            "https_key": "server.key",
+            "enable_movie_sorting": 0,
+            "send_group": 0,
+            "refresh_rate": 0,
+            "pre_script": "None",
+            "movie_categories": [
+                "movies"
+            ],
+            "email_full": 1,
+            "port": "8082",
+            "script_dir": "C:\\Program Files (x86)\\SickBeard\\autoProcessTV",
+            "log_dir": "logs",
+            "config_lock": 0,
+            "admin_dir": "admin",
+            "nzb_backup_dir": "D:\\Sickbeard_NZB",
+            "nice": "",
+            "tv_sort_countries": 1,
+            "date_categories": "tv",
+            "email_dir": "",
+            "ssl_type": "v23",
+            "sfv_check": 1,
+            "date_sort_string": "%t/%t - %y-%0m-%0d - %desc.%ext",
+            "enable_unrar": 1,
+            "dirscan_dir": "",
+            "schedlines": [
+                "0 7 * speedlimit 300",
+                "25 17 * speedlimit 0"
+            ],
+            "web_dir2": "Plush",
+            "host": "localhost",
+            "https_cert": "server.cert",
+            "ignore_samples": 2,
+            "email_pwd": "*******",
+            "fail_on_crc": 0,
+            "nzb_key": "fedcba012345676543210abcdeffedcb",
+            "auto_sort": 0,
+            "language": "en",
+            "ampm": 1,
+            "auto_browser": 1,
+            "web_dir": "smpl",
+            "pause_on_post_processing": 0,
+            "enable_tv_sorting": 0,
+            "queue_complete_pers": 1
+        },
+        "categories": [
+            {
+                "priority": -100,
+                "pp": "",
+                "name": "tv",
+                "script": "sabToSickBeard.exe",
+                "newzbin": "TV",
+                "dir": "TV"
+            },
+            {
+                "priority": -100,
+                "pp": "",
+                "name": "misc",
+                "script": "Default",
+                "newzbin": "Misc",
+                "dir": "Misc"
+            },
+            {
+                "priority": -100,
+                "pp": "",
+                "name": "couchpotato",
+                "script": "Default",
+                "newzbin": "CP",
+                "dir": "CP"
+            },
+            {
+                "priority": 0,
+                "pp": "3",
+                "name": "*",
+                "script": "None",
+                "newzbin": "",
+                "dir": ""
+            },
+            {
+                "priority": -100,
+                "pp": "",
+                "name": "apps",
+                "script": "Default",
+                "newzbin": "Apps",
+                "dir": "Apps"
+            },
+            {
+                "priority": -100,
+                "pp": "",
+                "name": "movies",
+                "script": "Default",
+                "newzbin": "Movies",
+                "dir": "Movies"
+            },
+            {
+                "priority": -100,
+                "pp": "",
+                "name": "consoles",
+                "script": "Default",
+                "newzbin": "Consoles",
+                "dir": "Consoles"
+            },
+            {
+                "priority": -100,
+                "pp": "",
+                "name": "books",
+                "script": "Default",
+                "newzbin": "Books",
+                "dir": "Books"
+            },
+            {
+                "priority": -100,
+                "pp": "",
+                "name": "games",
+                "script": "Default",
+                "newzbin": "Games",
+                "dir": "Games"
+            },
+            {
+                "priority": -100,
+                "pp": "",
+                "name": "anime",
+                "script": "Default",
+                "newzbin": "Anime",
+                "dir": "Anime"
+            },
+            {
+                "priority": -100,
+                "pp": "",
+                "name": "music",
+                "script": "Default",
+                "newzbin": "Music",
+                "dir": "Music"
+            },
+            {
+                "priority": -100,
+                "pp": "",
+                "name": "pda",
+                "script": "Default",
+                "newzbin": "PDA",
+                "dir": "PDA"
+            },
+            {
+                "priority": -100,
+                "pp": "",
+                "name": "resources",
+                "script": "Default",
+                "newzbin": "Resources",
+                "dir": "Resources"
+            },
+            {
+                "priority": -100,
+                "pp": "",
+                "name": "emulation",
+                "script": "Default",
+                "newzbin": "Emulation",
+                "dir": "Emulation"
+            }
+        ],
+        "servers": [
+            {
+                "username": "astra_username",
+                "enable": 1,
+                "name": "ssl.astraweb.com:563",
+                "fillserver": 0,
+                "connections": 18,
+                "ssl": 1,
+                "host": "ssl-eu.astraweb.com",
+                "timeout": 120,
+                "password": "************",
+                "optional": 0,
+                "port": 563,
+                "retention": 0
+            }
+        ]
+    }
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;config&gt;
+  &lt;newzbin&gt;
+    &lt;username&gt;&lt;/username&gt;
+    &lt;bookmark_rate&gt;60&lt;/bookmark_rate&gt;
+    &lt;url&gt;www.newzbin2.es&lt;/url&gt;
+    &lt;bookmarks&gt;0&lt;/bookmarks&gt;
+    &lt;password&gt;&lt;/password&gt;
+    &lt;unbookmark&gt;1&lt;/unbookmark&gt;
+  &lt;/newzbin&gt;
+  &lt;growl&gt;
+    &lt;growl_enable&gt;1&lt;/growl_enable&gt;
+  &lt;/growl&gt;
+  &lt;logging&gt;
+    &lt;log_new&gt;0&lt;/log_new&gt;
+    &lt;max_log_size&gt;5242880&lt;/max_log_size&gt;
+    &lt;log_level&gt;2&lt;/log_level&gt;
+    &lt;log_backups&gt;5&lt;/log_backups&gt;
+    &lt;enable_cherrypy_logging&gt;0&lt;/enable_cherrypy_logging&gt;
+  &lt;/logging&gt;
+  &lt;nzbmatrix&gt;
+    &lt;username&gt;nzbmatrix_username&lt;/username&gt;
+    &lt;apikey&gt;22222222222222222222222222222222&lt;/apikey&gt;
+    &lt;del_bookmark&gt;1&lt;/del_bookmark&gt;
+  &lt;/nzbmatrix&gt;
+  &lt;rss&gt;
+    &lt;feed&gt;
+      &lt;pp&gt;&lt;/pp&gt;
+      &lt;enable&gt;0&lt;/enable&gt;
+      &lt;name&gt;nzb.su&lt;/name&gt;
+      &lt;script&gt;&lt;/script&gt;
+      &lt;uri&gt;http://nzb.su/rss?t=-2&amp;amp;dl=1&amp;amp;i=1576&amp;amp;r=11111111111111111111111111111111&amp;amp;del=1&lt;/uri&gt;
+      &lt;cat&gt;&lt;/cat&gt;
+      &lt;priority&gt;-100&lt;/priority&gt;
+      &lt;filter0&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;A&lt;/item&gt;
+        &lt;item&gt;*&lt;/item&gt;
+        &lt;item&gt;-100&lt;/item&gt;
+      &lt;/filter0&gt;
+    &lt;/feed&gt;
+    &lt;feed&gt;
+      &lt;filter5&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;R&lt;/item&gt;
+        &lt;item&gt;-NAVER&lt;/item&gt;
+        &lt;item&gt;-100&lt;/item&gt;
+      &lt;/filter5&gt;
+      &lt;pp&gt;&lt;/pp&gt;
+      &lt;enable&gt;0&lt;/enable&gt;
+      &lt;name&gt;nzb.su audio&lt;/name&gt;
+      &lt;script&gt;Default&lt;/script&gt;
+      &lt;uri&gt;http://nzb.su/rss?t=3000&amp;amp;dl=1&amp;amp;i=1576&amp;amp;r=11111111111111111111111111111111&lt;/uri&gt;
+      &lt;cat&gt;music&lt;/cat&gt;
+      &lt;priority&gt;-100&lt;/priority&gt;
+      &lt;filter4&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;R&lt;/item&gt;
+        &lt;item&gt;-FLAC&lt;/item&gt;
+        &lt;item&gt;-100&lt;/item&gt;
+      &lt;/filter4&gt;
+      &lt;filter7&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;R&lt;/item&gt;
+        &lt;item&gt;-CABLE-&lt;/item&gt;
+        &lt;item&gt;-100&lt;/item&gt;
+      &lt;/filter7&gt;
+      &lt;filter6&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;R&lt;/item&gt;
+        &lt;item&gt;Proton&lt;/item&gt;
+        &lt;item&gt;-100&lt;/item&gt;
+      &lt;/filter6&gt;
+      &lt;filter1&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;A&lt;/item&gt;
+        &lt;item&gt;symphony&lt;/item&gt;
+        &lt;item&gt;-100&lt;/item&gt;
+      &lt;/filter1&gt;
+      &lt;filter0&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;M&lt;/item&gt;
+        &lt;item&gt;-2012-&lt;/item&gt;
+        &lt;item&gt;-100&lt;/item&gt;
+      &lt;/filter0&gt;
+      &lt;filter3&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;A&lt;/item&gt;
+        &lt;item&gt;essential&lt;/item&gt;
+        &lt;item&gt;-100&lt;/item&gt;
+      &lt;/filter3&gt;
+      &lt;filter2&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;A&lt;/item&gt;
+        &lt;item&gt;MonoPoly&lt;/item&gt;
+        &lt;item&gt;-100&lt;/item&gt;
+      &lt;/filter2&gt;
+      &lt;filter8&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;&lt;/item&gt;
+        &lt;item&gt;A&lt;/item&gt;
+        &lt;item&gt;*&lt;/item&gt;
+        &lt;item&gt;-100&lt;/item&gt;
+      &lt;/filter8&gt;
+    &lt;/feed&gt;
+  &lt;/rss&gt;
+  &lt;misc&gt;
+    &lt;queue_complete&gt;&lt;/queue_complete&gt;
+    &lt;https_port&gt;9090&lt;/https_port&gt;
+    &lt;folder_max_length&gt;128&lt;/folder_max_length&gt;
+    &lt;folder_rename&gt;1&lt;/folder_rename&gt;
+    &lt;allow_64bit_tools&gt;1&lt;/allow_64bit_tools&gt;
+    &lt;password_file&gt;&lt;/password_file&gt;
+    &lt;rss_rate&gt;300&lt;/rss_rate&gt;
+    &lt;email_server&gt;smtp.gmail.com:587&lt;/email_server&gt;
+    &lt;cleanup_list&gt;
+      &lt;item&gt;.txt&lt;/item&gt;
+    &lt;/cleanup_list&gt;
+    &lt;email_rss&gt;0&lt;/email_rss&gt;
+    &lt;allow_streaming&gt;0&lt;/allow_streaming&gt;
+    &lt;cache_limit&gt;128M&lt;/cache_limit&gt;
+    &lt;ignore_unrar_dates&gt;0&lt;/ignore_unrar_dates&gt;
+    &lt;par_option&gt;&lt;/par_option&gt;
+    &lt;web_color&gt;white&lt;/web_color&gt;
+    &lt;api_warnings&gt;1&lt;/api_warnings&gt;
+    &lt;tv_sort_string&gt;%sn/Season %s/%sn - S%0sE%0e - %en.%ext&lt;/tv_sort_string&gt;
+    &lt;web_color2&gt;gold&lt;/web_color2&gt;
+    &lt;dirscan_speed&gt;5&lt;/dirscan_speed&gt;
+    &lt;enable_filejoin&gt;1&lt;/enable_filejoin&gt;
+    &lt;create_group_folders&gt;0&lt;/create_group_folders&gt;
+    &lt;api_key&gt;1234567890abcdef0987654321fedcba&lt;/api_key&gt;
+    &lt;never_repair&gt;0&lt;/never_repair&gt;
+    &lt;no_penalties&gt;0&lt;/no_penalties&gt;
+    &lt;username&gt;xbmc&lt;/username&gt;
+    &lt;pause_on_pwrar&gt;1&lt;/pause_on_pwrar&gt;
+    &lt;download_dir&gt;downloads/incomplete&lt;/download_dir&gt;
+    &lt;size_limit&gt;&lt;/size_limit&gt;
+    &lt;enable_par_cleanup&gt;1&lt;/enable_par_cleanup&gt;
+    &lt;bandwidth_limit&gt;0&lt;/bandwidth_limit&gt;
+    &lt;safe_postproc&gt;1&lt;/safe_postproc&gt;
+    &lt;disable_api_key&gt;0&lt;/disable_api_key&gt;
+    &lt;cache_dir&gt;cache&lt;/cache_dir&gt;
+    &lt;email_to&gt;
+      &lt;item&gt;username@gmail.com&lt;/item&gt;
+    &lt;/email_to&gt;
+    &lt;complete_dir&gt;downloads/complete&lt;/complete_dir&gt;
+    &lt;rss_filenames&gt;0&lt;/rss_filenames&gt;
+    &lt;password&gt;******&lt;/password&gt;
+    &lt;replace_illegal&gt;1&lt;/replace_illegal&gt;
+    &lt;permissions&gt;&lt;/permissions&gt;
+    &lt;par2_multicore&gt;1&lt;/par2_multicore&gt;
+    &lt;ignore_wrong_unrar&gt;0&lt;/ignore_wrong_unrar&gt;
+    &lt;warned_old_queue&gt;0&lt;/warned_old_queue&gt;
+    &lt;enable_tsjoin&gt;1&lt;/enable_tsjoin&gt;
+    &lt;check_new_rel&gt;1&lt;/check_new_rel&gt;
+    &lt;auto_disconnect&gt;1&lt;/auto_disconnect&gt;
+    &lt;use_pickle&gt;0&lt;/use_pickle&gt;
+    &lt;enable_https&gt;0&lt;/enable_https&gt;
+    &lt;enable_date_sorting&gt;0&lt;/enable_date_sorting&gt;
+    &lt;no_dupes&gt;2&lt;/no_dupes&gt;
+    &lt;top_only&gt;1&lt;/top_only&gt;
+    &lt;quick_check&gt;1&lt;/quick_check&gt;
+    &lt;movie_sort_string&gt;%title (%y)/%title
+    (%y).%ext&lt;/movie_sort_string&gt;
+    &lt;email_from&gt;username@gmail.com&lt;/email_from&gt;
+    &lt;replace_dots&gt;0&lt;/replace_dots&gt;
+    &lt;movie_extra_folder&gt;0&lt;/movie_extra_folder&gt;
+    &lt;email_endjob&gt;2&lt;/email_endjob&gt;
+    &lt;tv_categories&gt;&lt;/tv_categories&gt;
+    &lt;unpack_check&gt;1&lt;/unpack_check&gt;
+    &lt;email_account&gt;username@gmail.com&lt;/email_account&gt;
+    &lt;login_realm&gt;SABnzbd&lt;/login_realm&gt;
+    &lt;movie_sort_extra&gt;CD%1&lt;/movie_sort_extra&gt;
+    &lt;replace_spaces&gt;1&lt;/replace_spaces&gt;
+    &lt;ionice&gt;&lt;/ionice&gt;
+    &lt;enable_unzip&gt;1&lt;/enable_unzip&gt;
+    &lt;download_free&gt;&lt;/download_free&gt;
+    &lt;https_key&gt;server.key&lt;/https_key&gt;
+    &lt;enable_movie_sorting&gt;0&lt;/enable_movie_sorting&gt;
+    &lt;send_group&gt;0&lt;/send_group&gt;
+    &lt;refresh_rate&gt;0&lt;/refresh_rate&gt;
+    &lt;pre_script&gt;None&lt;/pre_script&gt;
+    &lt;movie_categories&gt;
+      &lt;item&gt;movies&lt;/item&gt;
+    &lt;/movie_categories&gt;
+    &lt;email_full&gt;1&lt;/email_full&gt;
+    &lt;port&gt;8082&lt;/port&gt;
+    &lt;script_dir&gt;C:\Program Files
+    (x86)\SickBeard\autoProcessTV&lt;/script_dir&gt;
+    &lt;log_dir&gt;logs&lt;/log_dir&gt;
+    &lt;config_lock&gt;0&lt;/config_lock&gt;
+    &lt;admin_dir&gt;admin&lt;/admin_dir&gt;
+    &lt;nzb_backup_dir&gt;D:\Sickbeard_NZB&lt;/nzb_backup_dir&gt;
+    &lt;nice&gt;&lt;/nice&gt;
+    &lt;tv_sort_countries&gt;1&lt;/tv_sort_countries&gt;
+    &lt;date_categories&gt;tv&lt;/date_categories&gt;
+    &lt;email_dir&gt;&lt;/email_dir&gt;
+    &lt;ssl_type&gt;v23&lt;/ssl_type&gt;
+    &lt;sfv_check&gt;1&lt;/sfv_check&gt;
+    &lt;date_sort_string&gt;%t/%t - %y-%0m-%0d -
+    %desc.%ext&lt;/date_sort_string&gt;
+    &lt;enable_unrar&gt;1&lt;/enable_unrar&gt;
+    &lt;dirscan_dir&gt;&lt;/dirscan_dir&gt;
+    &lt;schedlines&gt;
+      &lt;item&gt;0 7 * speedlimit 300&lt;/item&gt;
+      &lt;item&gt;25 17 * speedlimit 0&lt;/item&gt;
+    &lt;/schedlines&gt;
+    &lt;web_dir2&gt;Plush&lt;/web_dir2&gt;
+    &lt;host&gt;localhost&lt;/host&gt;
+    &lt;https_cert&gt;server.cert&lt;/https_cert&gt;
+    &lt;ignore_samples&gt;2&lt;/ignore_samples&gt;
+    &lt;email_pwd&gt;*******&lt;/email_pwd&gt;
+    &lt;fail_on_crc&gt;0&lt;/fail_on_crc&gt;
+    &lt;nzb_key&gt;fedcba012345676543210abcdeffedcb&lt;/nzb_key&gt;
+    &lt;auto_sort&gt;0&lt;/auto_sort&gt;
+    &lt;language&gt;en&lt;/language&gt;
+    &lt;ampm&gt;1&lt;/ampm&gt;
+    &lt;auto_browser&gt;1&lt;/auto_browser&gt;
+    &lt;web_dir&gt;smpl&lt;/web_dir&gt;
+    &lt;pause_on_post_processing&gt;0&lt;/pause_on_post_processing&gt;
+    &lt;enable_tv_sorting&gt;0&lt;/enable_tv_sorting&gt;
+    &lt;queue_complete_pers&gt;1&lt;/queue_complete_pers&gt;
+  &lt;/misc&gt;
+  &lt;categories&gt;
+    &lt;category&gt;
+      &lt;priority&gt;-100&lt;/priority&gt;
+      &lt;pp&gt;&lt;/pp&gt;
+      &lt;name&gt;tv&lt;/name&gt;
+      &lt;script&gt;sabToSickBeard.exe&lt;/script&gt;
+      &lt;newzbin&gt;TV&lt;/newzbin&gt;
+      &lt;dir&gt;TV&lt;/dir&gt;
+    &lt;/category&gt;
+    &lt;category&gt;
+      &lt;priority&gt;-100&lt;/priority&gt;
+      &lt;pp&gt;&lt;/pp&gt;
+      &lt;name&gt;misc&lt;/name&gt;
+      &lt;script&gt;Default&lt;/script&gt;
+      &lt;newzbin&gt;Misc&lt;/newzbin&gt;
+      &lt;dir&gt;Misc&lt;/dir&gt;
+    &lt;/category&gt;
+    &lt;category&gt;
+      &lt;priority&gt;-100&lt;/priority&gt;
+      &lt;pp&gt;&lt;/pp&gt;
+      &lt;name&gt;couchpotato&lt;/name&gt;
+      &lt;script&gt;Default&lt;/script&gt;
+      &lt;newzbin&gt;CP&lt;/newzbin&gt;
+      &lt;dir&gt;CP&lt;/dir&gt;
+    &lt;/category&gt;
+    &lt;category&gt;
+      &lt;priority&gt;0&lt;/priority&gt;
+      &lt;pp&gt;3&lt;/pp&gt;
+      &lt;name&gt;*&lt;/name&gt;
+      &lt;script&gt;None&lt;/script&gt;
+      &lt;newzbin&gt;&lt;/newzbin&gt;
+      &lt;dir&gt;&lt;/dir&gt;
+    &lt;/category&gt;
+    &lt;category&gt;
+      &lt;priority&gt;-100&lt;/priority&gt;
+      &lt;pp&gt;&lt;/pp&gt;
+      &lt;name&gt;apps&lt;/name&gt;
+      &lt;script&gt;Default&lt;/script&gt;
+      &lt;newzbin&gt;Apps&lt;/newzbin&gt;
+      &lt;dir&gt;Apps&lt;/dir&gt;
+    &lt;/category&gt;
+    &lt;category&gt;
+      &lt;priority&gt;-100&lt;/priority&gt;
+      &lt;pp&gt;&lt;/pp&gt;
+      &lt;name&gt;movies&lt;/name&gt;
+      &lt;script&gt;Default&lt;/script&gt;
+      &lt;newzbin&gt;Movies&lt;/newzbin&gt;
+      &lt;dir&gt;Movies&lt;/dir&gt;
+    &lt;/category&gt;
+    &lt;category&gt;
+      &lt;priority&gt;-100&lt;/priority&gt;
+      &lt;pp&gt;&lt;/pp&gt;
+      &lt;name&gt;consoles&lt;/name&gt;
+      &lt;script&gt;Default&lt;/script&gt;
+      &lt;newzbin&gt;Consoles&lt;/newzbin&gt;
+      &lt;dir&gt;Consoles&lt;/dir&gt;
+    &lt;/category&gt;
+    &lt;category&gt;
+      &lt;priority&gt;-100&lt;/priority&gt;
+      &lt;pp&gt;&lt;/pp&gt;
+      &lt;name&gt;books&lt;/name&gt;
+      &lt;script&gt;Default&lt;/script&gt;
+      &lt;newzbin&gt;Books&lt;/newzbin&gt;
+      &lt;dir&gt;Books&lt;/dir&gt;
+    &lt;/category&gt;
+    &lt;category&gt;
+      &lt;priority&gt;-100&lt;/priority&gt;
+      &lt;pp&gt;&lt;/pp&gt;
+      &lt;name&gt;games&lt;/name&gt;
+      &lt;script&gt;Default&lt;/script&gt;
+      &lt;newzbin&gt;Games&lt;/newzbin&gt;
+      &lt;dir&gt;Games&lt;/dir&gt;
+    &lt;/category&gt;
+    &lt;category&gt;
+      &lt;priority&gt;-100&lt;/priority&gt;
+      &lt;pp&gt;&lt;/pp&gt;
+      &lt;name&gt;anime&lt;/name&gt;
+      &lt;script&gt;Default&lt;/script&gt;
+      &lt;newzbin&gt;Anime&lt;/newzbin&gt;
+      &lt;dir&gt;Anime&lt;/dir&gt;
+    &lt;/category&gt;
+    &lt;category&gt;
+      &lt;priority&gt;-100&lt;/priority&gt;
+      &lt;pp&gt;&lt;/pp&gt;
+      &lt;name&gt;music&lt;/name&gt;
+      &lt;script&gt;Default&lt;/script&gt;
+      &lt;newzbin&gt;Music&lt;/newzbin&gt;
+      &lt;dir&gt;Music&lt;/dir&gt;
+    &lt;/category&gt;
+    &lt;category&gt;
+      &lt;priority&gt;-100&lt;/priority&gt;
+      &lt;pp&gt;&lt;/pp&gt;
+      &lt;name&gt;pda&lt;/name&gt;
+      &lt;script&gt;Default&lt;/script&gt;
+      &lt;newzbin&gt;PDA&lt;/newzbin&gt;
+      &lt;dir&gt;PDA&lt;/dir&gt;
+    &lt;/category&gt;
+    &lt;category&gt;
+      &lt;priority&gt;-100&lt;/priority&gt;
+      &lt;pp&gt;&lt;/pp&gt;
+      &lt;name&gt;resources&lt;/name&gt;
+      &lt;script&gt;Default&lt;/script&gt;
+      &lt;newzbin&gt;Resources&lt;/newzbin&gt;
+      &lt;dir&gt;Resources&lt;/dir&gt;
+    &lt;/category&gt;
+    &lt;category&gt;
+      &lt;priority&gt;-100&lt;/priority&gt;
+      &lt;pp&gt;&lt;/pp&gt;
+      &lt;name&gt;emulation&lt;/name&gt;
+      &lt;script&gt;Default&lt;/script&gt;
+      &lt;newzbin&gt;Emulation&lt;/newzbin&gt;
+      &lt;dir&gt;Emulation&lt;/dir&gt;
+    &lt;/category&gt;
+  &lt;/categories&gt;
+  &lt;servers&gt;
+    &lt;server&gt;
+      &lt;username&gt;astra_username&lt;/username&gt;
+      &lt;enable&gt;1&lt;/enable&gt;
+      &lt;name&gt;ssl.astraweb.com:563&lt;/name&gt;
+      &lt;fillserver&gt;0&lt;/fillserver&gt;
+      &lt;connections&gt;18&lt;/connections&gt;
+      &lt;ssl&gt;1&lt;/ssl&gt;
+      &lt;host&gt;ssl-eu.astraweb.com&lt;/host&gt;
+      &lt;timeout&gt;120&lt;/timeout&gt;
+      &lt;password&gt;************&lt;/password&gt;
+      &lt;optional&gt;0&lt;/optional&gt;
+      &lt;port&gt;563&lt;/port&gt;
+      &lt;retention&gt;0&lt;/retention&gt;
+    &lt;/server&gt;
+  &lt;/servers&gt;
+&lt;/config&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+
+        <a name="get_files"></a>
+            <h1 class="title">
+                get_files
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-05<br/>
+                <span class="version">added: <b>0.5</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    Displays the file list of an job in the SABnzbd queue.
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                          <span class="param">value <span>required</span></span>
+                          <p>
+                            unique queue job id
+                          </p>
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=get_files&amp;value=SABnzbd_nzo_io6gzf</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "files": [
+        {
+            "status": "finished",
+            "mb": "2.31",
+            "age": "4d",
+            "bytes": "2424330.00",
+            "filename": "010212_01_26_06.vol000+02.par2",
+            "mbleft": "0.00",
+            "id": "0"
+        },
+        {
+            "status": "finished",
+            "mb": "97.78",
+            "age": "4d",
+            "bytes": "102534041.00",
+            "filename": "010212_01_26_06.r01",
+            "mbleft": "0.00",
+            "id": "1"
+        },
+        {
+            "status": "finished",
+            "mb": "98.40",
+            "age": "4d",
+            "bytes": "103181594.00",
+            "filename": "010212_01_26_06.rar",
+            "mbleft": "0.00",
+            "id": "2"
+        },
+        {
+            "status": "finished",
+            "mb": "97.83",
+            "age": "4d",
+            "bytes": "102580609.00",
+            "filename": "010212_01_26_06.r00",
+            "mbleft": "0.00",
+            "id": "3"
+        },
+        {
+            "status": "active",
+            "mb": "97.82",
+            "age": "4d",
+            "bytes": "102570144.00",
+            "filename": "010212_01_26_06.r02",
+            "mbleft": "83.55",
+            "nzf_id": "SABnzbd_nzf_oihzoa",
+            "id": "4"
+        },
+        {
+            "status": "active",
+            "mb": "97.86",
+            "age": "4d",
+            "bytes": "102611360.00",
+            "filename": "010212_01_26_06.r03",
+            "mbleft": "40.76",
+            "nzf_id": "SABnzbd_nzf_017uve",
+            "id": "5"
+        },
+        {
+            "status": "active",
+            "mb": "97.78",
+            "age": "4d",
+            "bytes": "102533560.00",
+            "filename": "010212_01_26_06.r04",
+            "mbleft": "97.03",
+            "nzf_id": "SABnzbd_nzf_eypgz0",
+            "id": "6"
+        },
+        {
+            "status": "active",
+            "mb": "97.96",
+            "age": "4d",
+            "bytes": "102720865.00",
+            "filename": "010212_01_26_06.r05",
+            "mbleft": "96.46",
+            "nzf_id": "SABnzbd_nzf_63lgpe",
+            "id": "7"
+        },
+        {
+            "status": "active",
+            "mb": "98.07",
+            "age": "4d",
+            "bytes": "102832138.00",
+            "filename": "010212_01_26_06.r06",
+            "mbleft": "98.07",
+            "nzf_id": "SABnzbd_nzf_sgcr7f",
+            "id": "8"
+        },
+        {
+            "status": "active",
+            "mb": "97.75",
+            "age": "4d",
+            "bytes": "102502916.00",
+            "filename": "010212_01_26_06.r07",
+            "mbleft": "97.01",
+            "nzf_id": "SABnzbd_nzf_bcivqc",
+            "id": "9"
+        },
+        {
+            "status": "active",
+            "mb": "97.73",
+            "age": "4d",
+            "bytes": "102476488.00",
+            "filename": "010212_01_26_06.r08",
+            "mbleft": "96.98",
+            "nzf_id": "SABnzbd_nzf_3t-hhi",
+            "id": "10"
+        },
+        {
+            "status": "active",
+            "mb": "97.75",
+            "age": "4d",
+            "bytes": "102493651.00",
+            "filename": "010212_01_26_06.r09",
+            "mbleft": "97.75",
+            "nzf_id": "SABnzbd_nzf_x6u2ai",
+            "id": "11"
+        },
+        {
+            "status": "active",
+            "mb": "97.89",
+            "age": "4d",
+            "bytes": "102643675.00",
+            "filename": "010212_01_26_06.r10",
+            "mbleft": "97.14",
+            "nzf_id": "SABnzbd_nzf_ewkefi",
+            "id": "12"
+        },
+        {
+            "status": "active",
+            "mb": "98.40",
+            "age": "4d",
+            "bytes": "103178258.00",
+            "filename": "010212_01_26_06.r11",
+            "mbleft": "98.40",
+            "nzf_id": "SABnzbd_nzf_bnkkff",
+            "id": "13"
+        },
+        {
+            "status": "active",
+            "mb": "98.40",
+            "age": "4d",
+            "bytes": "103180735.00",
+            "filename": "010212_01_26_06.r12",
+            "mbleft": "98.40",
+            "nzf_id": "SABnzbd_nzf_5ehqet",
+            "id": "14"
+        },
+        {
+            "status": "active",
+            "mb": "98.41",
+            "age": "4d",
+            "bytes": "103195030.00",
+            "filename": "010212_01_26_06.r13",
+            "mbleft": "98.41",
+            "nzf_id": "SABnzbd_nzf_q9_tz8",
+            "id": "15"
+        },
+        {
+            "status": "active",
+            "mb": "98.39",
+            "age": "4d",
+            "bytes": "103170785.00",
+            "filename": "010212_01_26_06.r14",
+            "mbleft": "98.39",
+            "nzf_id": "SABnzbd_nzf_wgzqgv",
+            "id": "16"
+        },
+        {
+            "status": "active",
+            "mb": "98.41",
+            "age": "4d",
+            "bytes": "103189574.00",
+            "filename": "010212_01_26_06.r15",
+            "mbleft": "98.41",
+            "nzf_id": "SABnzbd_nzf_cmdln9",
+            "id": "17"
+        },
+        {
+            "status": "active",
+            "mb": "98.40",
+            "age": "4d",
+            "bytes": "103182450.00",
+            "filename": "010212_01_26_06.r16",
+            "mbleft": "98.40",
+            "nzf_id": "SABnzbd_nzf_bgjzjs",
+            "id": "18"
+        },
+        {
+            "status": "active",
+            "mb": "98.40",
+            "age": "4d",
+            "bytes": "103179833.00",
+            "filename": "010212_01_26_06.r17",
+            "mbleft": "98.40",
+            "nzf_id": "SABnzbd_nzf_vwhdnq",
+            "id": "19"
+        },
+        {
+            "status": "active",
+            "mb": "98.37",
+            "age": "4d",
+            "bytes": "103151439.00",
+            "filename": "010212_01_26_06.r18",
+            "mbleft": "98.37",
+            "nzf_id": "SABnzbd_nzf_axupow",
+            "id": "20"
+        },
+        {
+            "status": "active",
+            "mb": "98.39",
+            "age": "4d",
+            "bytes": "103174233.00",
+            "filename": "010212_01_26_06.r19",
+            "mbleft": "98.39",
+            "nzf_id": "SABnzbd_nzf_jwv4xe",
+            "id": "21"
+        },
+        {
+            "status": "active",
+            "mb": "98.40",
+            "age": "4d",
+            "bytes": "103182387.00",
+            "filename": "010212_01_26_06.r20",
+            "mbleft": "98.40",
+            "nzf_id": "SABnzbd_nzf_2fvbsc",
+            "id": "22"
+        },
+        {
+            "status": "active",
+            "mb": "52.81",
+            "age": "4d",
+            "bytes": "55376446.00",
+            "filename": "010212_01_26_06.r21",
+            "mbleft": "52.81",
+            "nzf_id": "SABnzbd_nzf_9nxqbf",
+            "id": "23"
+        },
+        {
+            "status": "active",
+            "mb": "0.05",
+            "age": "4d",
+            "bytes": "48029.00",
+            "filename": "010212_01_26_06.par2",
+            "mbleft": "0.05",
+            "nzf_id": "SABnzbd_nzf_lox9sj",
+            "id": "24"
+        },
+        {
+            "status": "active",
+            "mb": "0.00",
+            "age": "4d",
+            "bytes": "3135.00",
+            "filename": "010212_01_26_06.sfv",
+            "mbleft": "0.00",
+            "nzf_id": "SABnzbd_nzf_kzjs7o",
+            "id": "25"
+        },
+        {
+            "status": "active",
+            "mb": "0.01",
+            "age": "4d",
+            "bytes": "5714.00",
+            "filename": "Foreverworld.2011.R5.DVDRip.XVID.AC3.HQ.Hive-CM8.nfo",
+            "mbleft": "0.01",
+            "nzf_id": "SABnzbd_nzf_gr9x0k",
+            "id": "26"
+        },
+        {
+            "status": "queued",
+            "set": "010212_01_26_06",
+            "mb": "83.59",
+            "age": "4d",
+            "bytes": "87645753.00",
+            "filename": "010212_01_26_06.vol126+75.par2",
+            "mbleft": "82.07",
+            "id": "27"
+        },
+        {
+            "status": "queued",
+            "set": "010212_01_26_06",
+            "mb": "71.37",
+            "age": "4d",
+            "bytes": "74835704.00",
+            "filename": "010212_01_26_06.vol062+64.par2",
+            "mbleft": "70.61",
+            "id": "28"
+        },
+        {
+            "status": "queued",
+            "set": "010212_01_26_06",
+            "mb": "4.58",
+            "age": "4d",
+            "bytes": "4799702.00",
+            "filename": "010212_01_26_06.vol002+04.par2",
+            "mbleft": "1.55",
+            "id": "29"
+        },
+        {
+            "status": "queued",
+            "set": "010212_01_26_06",
+            "mb": "35.80",
+            "age": "4d",
+            "bytes": "37537793.00",
+            "filename": "010212_01_26_06.vol030+32.par2",
+            "mbleft": "35.04",
+            "id": "30"
+        },
+        {
+            "status": "queued",
+            "set": "010212_01_26_06",
+            "mb": "9.06",
+            "age": "4d",
+            "bytes": "9502681.00",
+            "filename": "010212_01_26_06.vol006+08.par2",
+            "mbleft": "8.31",
+            "id": "31"
+        },
+        {
+            "status": "queued",
+            "set": "010212_01_26_06",
+            "mb": "17.99",
+            "age": "4d",
+            "bytes": "18863650.00",
+            "filename": "010212_01_26_06.vol014+16.par2",
+            "mbleft": "17.23",
+            "id": "32"
+        }
+    ]
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;files&gt;
+  &lt;file&gt;
+    &lt;status&gt;finished&lt;/status&gt;
+    &lt;mb&gt;2.31&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;2424330.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.vol000+02.par2&lt;/filename&gt;
+    &lt;mbleft&gt;0.00&lt;/mbleft&gt;
+    &lt;id&gt;0&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;finished&lt;/status&gt;
+    &lt;mb&gt;97.78&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;102534041.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r01&lt;/filename&gt;
+    &lt;mbleft&gt;0.00&lt;/mbleft&gt;
+    &lt;id&gt;1&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;finished&lt;/status&gt;
+    &lt;mb&gt;98.40&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;103181594.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.rar&lt;/filename&gt;
+    &lt;mbleft&gt;0.00&lt;/mbleft&gt;
+    &lt;id&gt;2&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;finished&lt;/status&gt;
+    &lt;mb&gt;97.83&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;102580609.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r00&lt;/filename&gt;
+    &lt;mbleft&gt;0.00&lt;/mbleft&gt;
+    &lt;id&gt;3&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;97.82&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;102570144.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r02&lt;/filename&gt;
+    &lt;mbleft&gt;44.48&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_oihzoa&lt;/nzf_id&gt;
+    &lt;id&gt;4&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;97.86&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;102611360.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r03&lt;/filename&gt;
+    &lt;mbleft&gt;40.76&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_017uve&lt;/nzf_id&gt;
+    &lt;id&gt;5&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;97.78&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;102533560.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r04&lt;/filename&gt;
+    &lt;mbleft&gt;97.03&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_eypgz0&lt;/nzf_id&gt;
+    &lt;id&gt;6&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;97.96&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;102720865.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r05&lt;/filename&gt;
+    &lt;mbleft&gt;96.46&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_63lgpe&lt;/nzf_id&gt;
+    &lt;id&gt;7&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;98.07&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;102832138.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r06&lt;/filename&gt;
+    &lt;mbleft&gt;98.07&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_sgcr7f&lt;/nzf_id&gt;
+    &lt;id&gt;8&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;97.75&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;102502916.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r07&lt;/filename&gt;
+    &lt;mbleft&gt;97.01&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_bcivqc&lt;/nzf_id&gt;
+    &lt;id&gt;9&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;97.73&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;102476488.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r08&lt;/filename&gt;
+    &lt;mbleft&gt;96.98&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_3t-hhi&lt;/nzf_id&gt;
+    &lt;id&gt;10&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;97.75&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;102493651.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r09&lt;/filename&gt;
+    &lt;mbleft&gt;97.75&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_x6u2ai&lt;/nzf_id&gt;
+    &lt;id&gt;11&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;97.89&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;102643675.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r10&lt;/filename&gt;
+    &lt;mbleft&gt;97.14&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_ewkefi&lt;/nzf_id&gt;
+    &lt;id&gt;12&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;98.40&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;103178258.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r11&lt;/filename&gt;
+    &lt;mbleft&gt;98.40&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_bnkkff&lt;/nzf_id&gt;
+    &lt;id&gt;13&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;98.40&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;103180735.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r12&lt;/filename&gt;
+    &lt;mbleft&gt;98.40&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_5ehqet&lt;/nzf_id&gt;
+    &lt;id&gt;14&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;98.41&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;103195030.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r13&lt;/filename&gt;
+    &lt;mbleft&gt;98.41&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_q9_tz8&lt;/nzf_id&gt;
+    &lt;id&gt;15&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;98.39&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;103170785.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r14&lt;/filename&gt;
+    &lt;mbleft&gt;98.39&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_wgzqgv&lt;/nzf_id&gt;
+    &lt;id&gt;16&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;98.41&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;103189574.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r15&lt;/filename&gt;
+    &lt;mbleft&gt;98.41&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_cmdln9&lt;/nzf_id&gt;
+    &lt;id&gt;17&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;98.40&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;103182450.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r16&lt;/filename&gt;
+    &lt;mbleft&gt;98.40&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_bgjzjs&lt;/nzf_id&gt;
+    &lt;id&gt;18&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;98.40&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;103179833.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r17&lt;/filename&gt;
+    &lt;mbleft&gt;98.40&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_vwhdnq&lt;/nzf_id&gt;
+    &lt;id&gt;19&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;98.37&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;103151439.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r18&lt;/filename&gt;
+    &lt;mbleft&gt;98.37&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_axupow&lt;/nzf_id&gt;
+    &lt;id&gt;20&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;98.39&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;103174233.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r19&lt;/filename&gt;
+    &lt;mbleft&gt;98.39&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_jwv4xe&lt;/nzf_id&gt;
+    &lt;id&gt;21&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;98.40&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;103182387.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r20&lt;/filename&gt;
+    &lt;mbleft&gt;98.40&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_2fvbsc&lt;/nzf_id&gt;
+    &lt;id&gt;22&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;52.81&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;55376446.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.r21&lt;/filename&gt;
+    &lt;mbleft&gt;52.81&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_9nxqbf&lt;/nzf_id&gt;
+    &lt;id&gt;23&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;0.05&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;48029.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.par2&lt;/filename&gt;
+    &lt;mbleft&gt;0.05&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_lox9sj&lt;/nzf_id&gt;
+    &lt;id&gt;24&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;0.00&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;3135.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.sfv&lt;/filename&gt;
+    &lt;mbleft&gt;0.00&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_kzjs7o&lt;/nzf_id&gt;
+    &lt;id&gt;25&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;active&lt;/status&gt;
+    &lt;mb&gt;0.01&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;5714.00&lt;/bytes&gt;
+    &lt;filename&gt;
+    Foreverworld.2011.R5.DVDRip.XVID.AC3.HQ.Hive-CM8.nfo&lt;/filename&gt;
+    &lt;mbleft&gt;0.01&lt;/mbleft&gt;
+    &lt;nzf_id&gt;SABnzbd_nzf_gr9x0k&lt;/nzf_id&gt;
+    &lt;id&gt;26&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;queued&lt;/status&gt;
+    &lt;set&gt;010212_01_26_06&lt;/set&gt;
+    &lt;mb&gt;83.59&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;87645753.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.vol126+75.par2&lt;/filename&gt;
+    &lt;mbleft&gt;82.07&lt;/mbleft&gt;
+    &lt;id&gt;27&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;queued&lt;/status&gt;
+    &lt;set&gt;010212_01_26_06&lt;/set&gt;
+    &lt;mb&gt;71.37&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;74835704.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.vol062+64.par2&lt;/filename&gt;
+    &lt;mbleft&gt;70.61&lt;/mbleft&gt;
+    &lt;id&gt;28&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;queued&lt;/status&gt;
+    &lt;set&gt;010212_01_26_06&lt;/set&gt;
+    &lt;mb&gt;4.58&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;4799702.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.vol002+04.par2&lt;/filename&gt;
+    &lt;mbleft&gt;1.55&lt;/mbleft&gt;
+    &lt;id&gt;29&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;queued&lt;/status&gt;
+    &lt;set&gt;010212_01_26_06&lt;/set&gt;
+    &lt;mb&gt;35.80&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;37537793.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.vol030+32.par2&lt;/filename&gt;
+    &lt;mbleft&gt;35.04&lt;/mbleft&gt;
+    &lt;id&gt;30&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;queued&lt;/status&gt;
+    &lt;set&gt;010212_01_26_06&lt;/set&gt;
+    &lt;mb&gt;9.06&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;9502681.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.vol006+08.par2&lt;/filename&gt;
+    &lt;mbleft&gt;8.31&lt;/mbleft&gt;
+    &lt;id&gt;31&lt;/id&gt;
+  &lt;/file&gt;
+  &lt;file&gt;
+    &lt;status&gt;queued&lt;/status&gt;
+    &lt;set&gt;010212_01_26_06&lt;/set&gt;
+    &lt;mb&gt;17.99&lt;/mb&gt;
+    &lt;age&gt;4d&lt;/age&gt;
+    &lt;bytes&gt;18863650.00&lt;/bytes&gt;
+    &lt;filename&gt;010212_01_26_06.vol014+16.par2&lt;/filename&gt;
+    &lt;mbleft&gt;17.23&lt;/mbleft&gt;
+    &lt;id&gt;32&lt;/id&gt;
+  &lt;/file&gt;
+&lt;/files&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+        <a name="get_scripts"></a>
+            <h1 class="title">
+                get_scripts
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-05<br/>
+                <span class="version">added: <b>0.4</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    Displays the scripts in SABnzbd.
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=get_scripts</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "scripts": [
+        "None",
+        "sabToSickBeard.exe"
+    ]
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;scripts&gt;
+    &lt;script&gt;None&lt;/script&gt;
+    &lt;script&gt;sabToSickBeard.exe&lt;/script&gt;
+&lt;/scripts&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+        <a name="history"></a>
+            <h1 class="title">
+                history
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-05<br/>
+                <span class="version">added: <b>0.5</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    Displays the SABnzbd history.
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                          <span class="param">limit <span>optional</span></span>
+                          <p>
+                            <span class="default">[</span>0<span class="default">]</span>
+                          </p>
+                        </div>
+                        <div class="parameter">
+                          <span class="param">start <span>optional</span></span>
+                          <p>
+                            <span class="default">[</span>xxx<span class="default">]</span>
+                          </p>
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=history&amp;limit=2</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "history": {
+        "active_lang": "en",
+        "paused": false,
+        "session": "1234567890abcdef0987654321fedcba",
+        "restart_req": false,
+        "power_options": true,
+        "slots": [
+            {
+                "action_line": "",
+                "show_details": "True",
+                "script_log": "",
+                "meta": null,
+                "fail_message": "",
+                "loaded": false,
+                "id": 1257,
+                "size": "2.2 GB",
+                "category": "movies",
+                "pp": "D",
+                "retry": 0,
+                "completeness": 0,
+                "script": "None",
+                "nzb_name": "Foreverworld 2011 R5 DVDRip XVID AC3 HQ Hive CM8.nzb",
+                "download_time": 1004,
+                "storage": "C:\\Users\\username\\Documents\\downloads\\complete\\Movies\\Foreverworld_2011_R5_DVDRip_XVID_AC3_HQ_Hive_CM8",
+                "status": "Completed",
+                "script_line": "",
+                "completed": 1328437385,
+                "nzo_id": "SABnzbd_nzo_io6gzf",
+                "downloaded": 2342317959,
+                "report": "",
+                "path": "C:\\Users\\username\\Documents\\downloads\\incomplete\\Foreverworld 2011 R5 DVDRip XVID AC3 HQ Hive CM8",
+                "postproc_time": 19,
+                "name": "Foreverworld_2011_R5_DVDRip_XVID_AC3_HQ_Hive_CM8",
+                "url": "",
+                "bytes": 2342317959,
+                "url_info": "",
+                "stage_log": [
+                    {
+                        "name": "Download",
+                        "actions": [
+                            "Downloaded in 16 minutes 44 seconds at an average of 2.2 MB/s"
+                        ]
+                    },
+                    {
+                        "name": "Repair",
+                        "actions": [
+                            "[010212_01_26_06] Quick Check OK"
+                        ]
+                    },
+                    {
+                        "name": "Unpack",
+                        "actions": [
+                            "[010212_01_26_06] Unpacked 2 files/folders in 18 seconds"
+                        ]
+                    }
+                ]
+            },
+            {
+                "action_line": "",
+                "show_details": "True",
+                "script_log": "Loading config from C:\\Program Files (x86)\\SickBeard\\autoProcessTV\\autoProcessTV.cfg\r\nOpening URL: http://localhost:8081/home/postprocess/processEpisode?nzbName=Fringe.S04E11.720p.HDTV.X264-DIMENSION.nzb&quiet=1&dir=C%3A%5CUsers%5Cusername%5CDocuments%5Cdownloads%5Ccomplete%5CTV%5CFringe.S04E11.720p.HDTV.X264-DIMENSION\r\nProcessing folder C:\\Users\\username\\Documents\\downloads\\complete\\TV\\Fringe.S04E11.720p.HDTV.X264-DIMENSION\r\n\r\nProcessing C:\\Users\\username\\Documents\\downloads\\complete\\TV\\Fringe.S04E11.720p.HDTV.X264-DIMENSION\\Fringe.S04E11.720p.HDTV.X264-DIMENSION.mkv (Fringe.S04E11.720p.HDTV.X264-DIMENSION.nzb)\r\n\r\nFound result in history: (82066, 4, [])\r\n\r\nParsed C:\\Users\\username\\Documents\\downloads\\complete\\TV\\Fringe.S04E11.720p.HDTV.X264-DIMENSION\\Fringe.S04E11.720p.HDTV.X264-DIMENSION.mkv into Fringe - S4E11 - 720p.HDTV.X264 (DIMENSION) [ABD: False]\r\n\r\nChecking scene exceptions for a match on Fringe\r\n\r\nLooking up Fringe in the DB\r\n\r\nLookup successful, using tvdb id 82066\r\n\r\nLoading show object for tvdb_id 82066\r\n\r\nRetrieving episode object for 4x11\r\n\r\nThe old status had a quality in it, using that: HD TV\r\n\r\nSB snatched this episode so I'm marking it as priority\r\n\r\nIs ep a priority download: True\r\n\r\nThere is no existing file so there's no worries about replacing it\r\n\r\nThis download is marked a priority download so I'm going to replace an existing file if I find one\r\n\r\nDestination folder for this episode: S:\\TV\\Fringe\\Season 04\r\n\r\nMoving file from C:\\Users\\username\\Documents\\downloads\\complete\\TV\\Fringe.S04E11.720p.HDTV.X264-DIMENSION\\Fringe.S04E11.720p.HDTV.X264-DIMENSION.mkv to S:\\TV\\Fringe\\Season 04\\Fringe.S04E11.HD.TV.mkv\r\n\r\nDeleting folder C:\\Users\\username\\Documents\\downloads\\complete\\TV\\Fringe.S04E11.720p.HDTV.X264-DIMENSION\r\n\r\nProcessing succeeded for C:\\Users\\username\\Documents\\downloads\\complete\\TV\\Fringe.S04E11.720p.HDTV.X264-DIMENSION\\Fringe.S04E11.720p.HDTV.X264-DIMENSION.mkv\r\n\r\n",
+                "meta": null,
+                "fail_message": "",
+                "loaded": false,
+                "id": 1256,
+                "size": "1.1 GB",
+                "category": "tv",
+                "pp": "D",
+                "retry": 0,
+                "completeness": 0,
+                "script": "sabToSickBeard.exe",
+                "nzb_name": "Fringe.S04E11.720p.HDTV.X264-DIMENSION.nzb",
+                "download_time": 496,
+                "storage": "C:\\Users\\username\\Documents\\downloads\\complete\\TV\\Fringe.S04E11.720p.HDTV.X264-DIMENSION",
+                "status": "Completed",
+                "script_line": "Processing succeeded for C:\\Users\\username\\Documents\\downloads\\complete\\TV\\Fringe.S04E11.720p.HDTV.X264-DIMENSION\\Fringe.S04E11.720p.HDTV.X264-DIMENSI...",
+                "completed": 1328326390,
+                "nzo_id": "SABnzbd_nzo_49uiyp",
+                "downloaded": 1134642015,
+                "report": "",
+                "path": "C:\\Users\\username\\Documents\\downloads\\incomplete\\Fringe.S04E11.720p.HDTV.X264-DIMENSION",
+                "postproc_time": 23,
+                "name": "Fringe.S04E11.720p.HDTV.X264-DIMENSION",
+                "url": "",
+                "bytes": 1134642015,
+                "url_info": "",
+                "stage_log": [
+                    {
+                        "name": "Download",
+                        "actions": [
+                            "Downloaded in 8 minutes 16 seconds at an average of 2.2 MB/s"
+                        ]
+                    },
+                    {
+                        "name": "Repair",
+                        "actions": [
+                            "[fringe.division.411.720p-dimension] Quick Check OK"
+                        ]
+                    },
+                    {
+                        "name": "Unpack",
+                        "actions": [
+                            "[fringe.division.411.720p-dimension] Unpacked 1 files/folders in 5 seconds"
+                        ]
+                    },
+                    {
+                        "name": "Script",
+                        "actions": [
+                            "Processing succeeded for C:\\Users\\username\\Documents\\downloads\\complete\\TV\\Fringe.S04E11.720p.HDTV.X264-DIMENSION\\Fringe.S04E11.720p.HDTV.X264-DIMENSI... <a href=\"./scriptlog?name=SABnzbd_nzo_49uiyp\">(More)</a>"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "speed": "0 ",
+        "helpuri": "http://wiki.sabnzbd.org/",
+        "size": "0 B",
+        "uptime": "3h",
+        "total_size": "816.3 G",
+        "month_size": "8.8 G",
+        "week_size": "13.0 G",
+        "version": "0.6.15",
+        "new_rel_url": "",
+        "diskspacetotal2": "74.43",
+        "color_scheme": "white",
+        "diskspacetotal1": "74.43",
+        "nt": true,
+        "status": "Idle",
+        "last_warning": "",
+        "have_warnings": "0",
+        "cache_art": "0",
+        "sizeleft": "0 B",
+        "finishaction": null,
+        "paused_all": false,
+        "cache_size": "0 B",
+        "newzbin_url": "www.newzbin2.es",
+        "new_release": "",
+        "pause_int": "0",
+        "mbleft": "0.00",
+        "diskspace1": "10.42",
+        "darwin": false,
+        "timeleft": "0:00:00",
+        "mb": "0.00",
+        "noofslots": 1244,
+        "day_size": "2.2 G",
+        "eta": "unknown",
+        "nzb_quota": "",
+        "loadavg": "",
+        "cache_max": "134217728",
+        "kbpersec": "0.00",
+        "speedlimit": "",
+        "webdir": "C:\\Program Files (x86)\\SABnzbd\\interfaces\\smpl\\templates",
+        "diskspace2": "10.42"
+    }
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;history&gt;
+  &lt;active_lang&gt;en&lt;/active_lang&gt;
+  &lt;paused&gt;False&lt;/paused&gt;
+  &lt;session&gt;1234567890abcdef0987654321fedcba&lt;/session&gt;
+  &lt;restart_req&gt;False&lt;/restart_req&gt;
+  &lt;power_options&gt;True&lt;/power_options&gt;
+  &lt;slots&gt;
+    &lt;slot&gt;
+      &lt;action_line&gt;&lt;/action_line&gt;
+      &lt;show_details&gt;True&lt;/show_details&gt;
+      &lt;script_log&gt;&lt;/script_log&gt;
+      &lt;meta&gt;None&lt;/meta&gt;
+      &lt;fail_message&gt;&lt;/fail_message&gt;
+      &lt;loaded&gt;False&lt;/loaded&gt;
+      &lt;id&gt;1257&lt;/id&gt;
+      &lt;size&gt;2.2 GB&lt;/size&gt;
+      &lt;category&gt;movies&lt;/category&gt;
+      &lt;pp&gt;D&lt;/pp&gt;
+      &lt;retry&gt;0&lt;/retry&gt;
+      &lt;completeness&gt;0&lt;/completeness&gt;
+      &lt;script&gt;None&lt;/script&gt;
+      &lt;nzb_name&gt;Foreverworld 2011 R5 DVDRip XVID AC3 HQ Hive CM8.nzb&lt;/nzb_name&gt;
+      &lt;download_time&gt;1004&lt;/download_time&gt;
+      &lt;storage&gt;
+        C:\Users\username\Documents\downloads\complete\Movies\Foreverworld_2011_R5_DVDRip_XVID_AC3_HQ_Hive_CM8
+      &lt;/storage&gt;
+      &lt;status&gt;Completed&lt;/status&gt;
+      &lt;script_line&gt;&lt;/script_line&gt;
+      &lt;completed&gt;1328437385&lt;/completed&gt;
+      &lt;nzo_id&gt;SABnzbd_nzo_io6gzf&lt;/nzo_id&gt;
+      &lt;downloaded&gt;2342317959&lt;/downloaded&gt;
+      &lt;report&gt;&lt;/report&gt;
+      &lt;path&gt;
+        C:\Users\username\Documents\downloads\incomplete\Foreverworld 2011 R5 DVDRip XVID AC3 HQ Hive CM8
+      &lt;/path&gt;
+      &lt;postproc_time&gt;19&lt;/postproc_time&gt;
+      &lt;name&gt;Foreverworld_2011_R5_DVDRip_XVID_AC3_HQ_Hive_CM8&lt;/name&gt;
+      &lt;url&gt;&lt;/url&gt;
+      &lt;bytes&gt;2342317959&lt;/bytes&gt;
+      &lt;url_info&gt;&lt;/url_info&gt;
+      &lt;stage_log&gt;
+        &lt;slot&gt;
+          &lt;name&gt;Download&lt;/name&gt;
+          &lt;actions&gt;
+            &lt;item&gt;Downloaded in 16 minutes 44 seconds at an average of 2.2 MB/s&lt;/item&gt;
+          &lt;/actions&gt;
+        &lt;/slot&gt;
+        &lt;slot&gt;
+          &lt;name&gt;Repair&lt;/name&gt;
+          &lt;actions&gt;
+            &lt;item&gt;[010212_01_26_06] Quick Check OK&lt;/item&gt;
+          &lt;/actions&gt;
+        &lt;/slot&gt;
+        &lt;slot&gt;
+          &lt;name&gt;Unpack&lt;/name&gt;
+          &lt;actions&gt;
+            &lt;item&gt;[010212_01_26_06] Unpacked 2 files/folders in 18 seconds&lt;/item&gt;
+          &lt;/actions&gt;
+        &lt;/slot&gt;
+      &lt;/stage_log&gt;
+    &lt;/slot&gt;
+    &lt;slot&gt;
+      &lt;action_line&gt;&lt;/action_line&gt;
+      &lt;show_details&gt;True&lt;/show_details&gt;
+      &lt;script_log&gt;
+          Loading config from C:\Program Files (x86)\SickBeard\autoProcessTV\autoProcessTV.cfg Opening URL: http://localhost:8081/home/postprocess/processEpisode?nzbName=Fringe.S04E11.720p.HDTV.X264-DIMENSION.nzb&amp;amp;quiet=1&amp;amp;dir=C%3A%5CUsers%5Cusername%5CDocuments%5Cdownloads%5Ccomplete%5CTV%5CFringe.S04E11.720p.HDTV.X264-DIMENSION Processing folder C:\Users\username\Documents\downloads\complete\TV\Fringe.S04E11.720p.HDTV.X264-DIMENSION Processing C:\Users\username\Documents\downloads\complete\TV\Fringe.S04E11.720p.HDTV.X264-DIMENSION\Fringe.S04E11.720p.HDTV.X264-DIMENSION.mkv (Fringe.S04E11.720p.HDTV.X264-DIMENSION.nzb) Found result in history: (82066, 4, []) Parsed C:\Users\username\Documents\downloads\complete\TV\Fringe.S04E11.720p.HDTV.X264-DIMENSION\Fringe.S04E11.720p.HDTV.X264-DIMENSION.mkv into Fringe - S4E11 - 720p.HDTV.X264 (DIMENSION) [ABD: False] Checking scene exceptions for a match on Fringe Looking up Fringe in the DB Lookup successful, using tvdb id 82066 Loading show object for tvdb_id 82066 Retrieving episode object for 4x11 The old status had a quality in it, using that: HD TV SB snatched this episode so I'm marking it as priority Is ep a priority download: True There is no existing file so there's no worries about replacing it This download is marked a priority download so I'm going to replace an existing file if I find one Destination folder for this episode: S:\TV\Fringe\Season 04 Moving file from C:\Users\username\Documents\downloads\complete\TV\Fringe.S04E11.720p.HDTV.X264-DIMENSION\Fringe.S04E11.720p.HDTV.X264-DIMENSION.mkv to S:\TV\Fringe\Season 04\Fringe.S04E11.HD.TV.mkv Deleting folder C:\Users\username\Documents\downloads\complete\TV\Fringe.S04E11.720p.HDTV.X264-DIMENSION Processing succeeded for C:\Users\username\Documents\downloads\complete\TV\Fringe.S04E11.720p.HDTV.X264-DIMENSION\Fringe.S04E11.720p.HDTV.X264-DIMENSION.mkv
+      &lt;/script_log&gt;
+      &lt;meta&gt;None&lt;/meta&gt;
+      &lt;fail_message&gt;&lt;/fail_message&gt;
+      &lt;loaded&gt;False&lt;/loaded&gt;
+      &lt;id&gt;1256&lt;/id&gt;
+      &lt;size&gt;1.1 GB&lt;/size&gt;
+      &lt;category&gt;tv&lt;/category&gt;
+      &lt;pp&gt;D&lt;/pp&gt;
+      &lt;retry&gt;0&lt;/retry&gt;
+      &lt;completeness&gt;0&lt;/completeness&gt;
+      &lt;script&gt;sabToSickBeard.exe&lt;/script&gt;
+      &lt;nzb_name&gt;Fringe.S04E11.720p.HDTV.X264-DIMENSION.nzb&lt;/nzb_name&gt;
+      &lt;download_time&gt;496&lt;/download_time&gt;
+      &lt;storage&gt;
+        C:\Users\username\Documents\downloads\complete\TV\Fringe.S04E11.720p.HDTV.X264-DIMENSION
+      &lt;/storage&gt;
+      &lt;status&gt;Completed&lt;/status&gt;
+      &lt;script_line&gt;
+        Processing succeeded for C:\Users\username\Documents\downloads\complete\TV\Fringe.S04E11.720p.HDTV.X264-DIMENSION\Fringe.S04E11.720p.HDTV.X264-DIMENSI...
+      &lt;/script_line&gt;
+      &lt;completed&gt;1328326390&lt;/completed&gt;
+      &lt;nzo_id&gt;SABnzbd_nzo_49uiyp&lt;/nzo_id&gt;
+      &lt;downloaded&gt;1134642015&lt;/downloaded&gt;
+      &lt;report&gt;&lt;/report&gt;
+      &lt;path&gt;
+        C:\Users\username\Documents\downloads\incomplete\Fringe.S04E11.720p.HDTV.X264-DIMENSION
+      &lt;/path&gt;
+      &lt;postproc_time&gt;23&lt;/postproc_time&gt;
+      &lt;name&gt;Fringe.S04E11.720p.HDTV.X264-DIMENSION&lt;/name&gt;
+      &lt;url&gt;&lt;/url&gt;
+      &lt;bytes&gt;1134642015&lt;/bytes&gt;
+      &lt;url_info&gt;&lt;/url_info&gt;
+      &lt;stage_log&gt;
+        &lt;slot&gt;
+          &lt;name&gt;Download&lt;/name&gt;
+          &lt;actions&gt;
+            &lt;item&gt;Downloaded in 8 minutes 16 seconds at an average of 2.2 MB/s&lt;/item&gt;
+          &lt;/actions&gt;
+        &lt;/slot&gt;
+        &lt;slot&gt;
+          &lt;name&gt;Repair&lt;/name&gt;
+          &lt;actions&gt;
+            &lt;item&gt;[fringe.division.411.720p-dimension] Quick Check OK&lt;/item&gt;
+          &lt;/actions&gt;
+        &lt;/slot&gt;
+        &lt;slot&gt;
+          &lt;name&gt;Unpack&lt;/name&gt;
+          &lt;actions&gt;
+            &lt;item&gt;[fringe.division.411.720p-dimension] Unpacked 1 files/folders in 5 seconds&lt;/item&gt;
+          &lt;/actions&gt;
+        &lt;/slot&gt;
+        &lt;slot&gt;
+          &lt;name&gt;Script&lt;/name&gt;
+          &lt;actions&gt;
+            &lt;item&gt;Processing succeeded for C:\Users\username\Documents\downloads\complete\TV\Fringe.S04E11.720p.HDTV.X264-DIMENSION\Fringe.S04E11.720p.HDTV.X264-DIMENSI... &amp;lt;a href=&quot;./scriptlog?name=SABnzbd_nzo_49uiyp&quot;&amp;gt;(More)&amp;lt;/a&amp;gt;&lt;/item&gt;
+          &lt;/actions&gt;
+        &lt;/slot&gt;
+      &lt;/stage_log&gt;
+    &lt;/slot&gt;
+  &lt;/slots&gt;
+  &lt;speed&gt;0&lt;/speed&gt;
+  &lt;helpuri&gt;http://wiki.sabnzbd.org/&lt;/helpuri&gt;
+  &lt;size&gt;0 B&lt;/size&gt;
+  &lt;uptime&gt;3h&lt;/uptime&gt;
+  &lt;total_size&gt;816.3 G&lt;/total_size&gt;
+  &lt;month_size&gt;8.8 G&lt;/month_size&gt;
+  &lt;week_size&gt;13.0 G&lt;/week_size&gt;
+  &lt;version&gt;0.6.15&lt;/version&gt;
+  &lt;new_rel_url&gt;&lt;/new_rel_url&gt;
+  &lt;diskspacetotal2&gt;74.43&lt;/diskspacetotal2&gt;
+  &lt;color_scheme&gt;white&lt;/color_scheme&gt;
+  &lt;diskspacetotal1&gt;74.43&lt;/diskspacetotal1&gt;
+  &lt;nt&gt;True&lt;/nt&gt;
+  &lt;status&gt;Idle&lt;/status&gt;
+  &lt;last_warning&gt;&lt;/last_warning&gt;
+  &lt;have_warnings&gt;0&lt;/have_warnings&gt;
+  &lt;cache_art&gt;0&lt;/cache_art&gt;
+  &lt;sizeleft&gt;0 B&lt;/sizeleft&gt;
+  &lt;finishaction&gt;None&lt;/finishaction&gt;
+  &lt;paused_all&gt;False&lt;/paused_all&gt;
+  &lt;cache_size&gt;0 B&lt;/cache_size&gt;
+  &lt;newzbin_url&gt;www.newzbin2.es&lt;/newzbin_url&gt;
+  &lt;new_release&gt;&lt;/new_release&gt;
+  &lt;pause_int&gt;0&lt;/pause_int&gt;
+  &lt;mbleft&gt;0.00&lt;/mbleft&gt;
+  &lt;diskspace1&gt;10.42&lt;/diskspace1&gt;
+  &lt;darwin&gt;False&lt;/darwin&gt;
+  &lt;timeleft&gt;0:00:00&lt;/timeleft&gt;
+  &lt;mb&gt;0.00&lt;/mb&gt;
+  &lt;noofslots&gt;1244&lt;/noofslots&gt;
+  &lt;day_size&gt;2.2 G&lt;/day_size&gt;
+  &lt;eta&gt;unknown&lt;/eta&gt;
+  &lt;nzb_quota&gt;&lt;/nzb_quota&gt;
+  &lt;loadavg&gt;&lt;/loadavg&gt;
+  &lt;cache_max&gt;134217728&lt;/cache_max&gt;
+  &lt;kbpersec&gt;0.00&lt;/kbpersec&gt;
+  &lt;speedlimit&gt;&lt;/speedlimit&gt;
+  &lt;webdir&gt;C:\Program Files (x86)\SABnzbd\interfaces\smpl\templates&lt;/webdir&gt;
+  &lt;diskspace2&gt;10.42&lt;/diskspace2&gt;
+&lt;/history&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+
+        <a name="options"></a>
+            <h1 class="title">
+                options
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-05<br/>
+                <span class="version">added: <b>0.5?</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    Display the options for tools on the currently running SABnzbd.
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=options</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "options": {
+        "zip": "C:\\Program Files (x86)\\SABnzbd\\win\\unzip\\unzip.exe",
+        "yenc": true,
+        "par2c": "C:\\Program Files (x86)\\SABnzbd\\win\\par2\\par2-classic.exe",
+        "ssl": true,
+        "rar": "C:\\Program Files (x86)\\SABnzbd\\win\\unrar\\x64\\UnRAR.exe",
+        "par2": "C:\\Program Files (x86)\\SABnzbd\\win\\par2\\x64\\par2.exe",
+        "ionice": null,
+        "nice": null
+    }
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;options&gt;
+  &lt;zip&gt;C:\Program Files (x86)\SABnzbd\win\unzip\unzip.exe&lt;/zip&gt;
+  &lt;yenc&gt;True&lt;/yenc&gt;
+  &lt;par2c&gt;C:\Program Files (x86)\SABnzbd\win\par2\par2-classic.exe&lt;/par2c&gt;
+  &lt;ssl&gt;True&lt;/ssl&gt;
+  &lt;rar&gt;C:\Program Files (x86)\SABnzbd\win\unrar\x64\UnRAR.exe&lt;/rar&gt;
+  &lt;par2&gt;C:\Program Files (x86)\SABnzbd\win\par2\x64\par2.exe&lt;/par2&gt;
+  &lt;ionice&gt;None&lt;/ionice&gt;
+  &lt;nice&gt;None&lt;/nice&gt;
+&lt;/options&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+
+        <a name="osx_icon"></a>
+            <h1 class="title">
+                osx_icon
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-10<br/>
+                <span class="version">added: <b>0.7?</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    Check or set the osx_menu config value. This determins whether to load the SABnzbd menu icon for the OS X system panel on startup.
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                          <span class="param">value <span>optional</span></span>
+                          <p>
+                            0, <span class="default">[</span>1<span class="default">]</span>
+                          </p>
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=osx_icon</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "status": true
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;result&gt;
+    &lt;status>True&lt;/status&gt;
+&lt;/result&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+
+        <a name="pause"></a>
+            <h1 class="title">
+                pause
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-05<br/>
+                <span class="version">added: <b>0.3</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    Pause the SABnzbd queue (globally).
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=pause</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "status": true
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;result&gt;
+    &lt;status>True&lt;/status&gt;
+&lt;/result&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+
+        <a name="qstatus"></a>
+            <h1 class="title">
+                qstatus
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-05<br/>
+                <span class="version">added: <b>0.3</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    Depreciated now by the advanced queue output, this is the old api that just provides limited details on the current queue and state of SABnzbd.
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=qstatus</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "have_warnings": "0",
+    "timeleft": "0:16:06",
+    "mb": 2436.16934,
+    "noofslots": 1,
+    "paused": false,
+    "pause_int": "0",
+    "state": "DOWNLOADING",
+    "loadavg": "",
+    "mbleft": 2110.614283,
+    "diskspace2": 10.419674,
+    "diskspace1": 10.419674,
+    "kbpersec": 2235.489426,
+    "jobs": [
+        {
+            "timeleft": "0:16:06",
+            "mb": 2436.16934,
+            "msgid": "",
+            "filename": "Foreverworld_2011_R5_DVDRip_XVID_AC3_HQ_Hive_CM8",
+            "mbleft": 2110.614283,
+            "id": "SABnzbd_nzo_io6gzf"
+        }
+      ],
+    "speed": "2.2 M"
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;queue&gt;
+    &lt;have_warnings&gt;0&lt;/have_warnings&gt;
+    &lt;timeleft&gt;0:16:26&lt;/timeleft&gt;
+    &lt;mb&gt;2436.16934013&lt;/mb&gt;
+    &lt;noofslots&gt;1&lt;/noofslots&gt;
+    &lt;paused&gt;False&lt;/paused&gt;
+    &lt;pause_int&gt;0&lt;/pause_int&gt;
+    &lt;state&gt;DOWNLOADING&lt;/state&gt;
+    &lt;loadavg/&gt;
+    &lt;mbleft&gt;2087.33256721&lt;/mbleft&gt;
+    &lt;diskspace2&gt;10.4024505615&lt;/diskspace2&gt;
+    &lt;diskspace1&gt;10.4024505615&lt;/diskspace1&gt;
+    &lt;kbpersec&gt;2167.22598139&lt;/kbpersec&gt;
+    &lt;jobs&gt;
+        &lt;job&gt;
+            &lt;timeleft&gt;0:16:26&lt;/timeleft&gt;
+            &lt;mb&gt;2436.16934013&lt;/mb&gt;
+            &lt;msgid/&gt;
+            &lt;filename&gt;Foreverworld_2011_R5_DVDRip_XVID_AC3_HQ_Hive_CM8&lt;/filename&gt;
+            &lt;mbleft&gt;2087.33256721&lt;/mbleft&gt;
+            &lt;id&gt;SABnzbd_nzo_io6gzf&lt;/id&gt;
+        &lt;/job&gt;
+    &lt;/jobs&gt;
+    &lt;speed&gt;2.1 M&lt;/speed&gt;
+&lt;/queue&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+
+        <a name="queue"></a>
+            <h1 class="title">
+                queue
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-05<br/>
+                <span class="version">added: <b>0.5</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    Display the SABnzbd queue.
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                          <span class="param">sort <span>optional</span></span>
+                          <p>
+                            <span class="default">[</span>name<span class="default">]</span>, bytes, avg_age, size
+                          </p>
+                          <p>
+                            only works if a direction (dir) for the sort is provided
+                          </p>
+                        </div>
+                        <div class="parameter">
+                          <span class="param">dir <span>optional</span></span>
+                          <p>
+                            <span class="default">[</span>asc<span class="default">]</span>, desc
+                          </p>
+                        </div>
+                        <div class="parameter">
+                          <span class="param">start <span>optional</span></span>
+                          <p>
+                            <span class="default">[</span>0<span class="default">]</span>
+                          </p>
+                          <p>
+                            provide the offset of what item in the list to start from
+                          </p>
+                        </div>
+                        <div class="parameter">
+                          <span class="param">limit <span>optional</span></span>
+                          <p>
+                            <span class="default">[</span>0<span class="default">]</span>
+                          </p>
+                        </div>
+                        <div class="parameter">
+                          <span class="param">trans <span>optional</span></span>
+                          <p>
+                            <span class="default">[</span>0<span class="default">], 1
+                          </p>
+                        </div>
+                        <div class="parameter">
+                          <span class="param">history <span>optional</span></span>
+                          <p>
+                            1
+                          </p>
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=queue</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "queue": {
+        "active_lang": "en",
+        "paused": false,
+        "session": "1234567890abcdef0987654321fedcba",
+        "restart_req": false,
+        "power_options": true,
+        "slots": [
+            {
+                "status": "Downloading",
+                "index": 0,
+                "eta": "04:25 AM Sun 05 Feb",
+                "missing": 0,
+                "avg_age": "4d",
+                "script": "None",
+                "msgid": "",
+                "verbosity": "",
+                "mb": "2436.17",
+                "sizeleft": "2.1 GB",
+                "filename": "Foreverworld_2011_R5_DVDRip_XVID_AC3_HQ_Hive_CM8",
+                "priority": "Normal",
+                "cat": "movies",
+                "mbleft": "2185.90",
+                "timeleft": "0:18:32",
+                "percentage": "10",
+                "nzo_id": "SABnzbd_nzo_io6gzf",
+                "unpackopts": "3",
+                "size": "2.4 GB"
+            }
+        ],
+        "speed": "2.0 M",
+        "helpuri": "http://wiki.sabnzbd.org/",
+        "size": "2.4 GB",
+        "uptime": "1h",
+        "refresh_rate": "",
+        "limit": 0,
+        "isverbose": false,
+        "start": 0,
+        "finish": 0,
+        "version": "0.6.15",
+        "new_rel_url": "",
+        "diskspacetotal2": "74.43",
+        "color_scheme": "white",
+        "diskspacetotal1": "74.43",
+        "nt": true,
+        "status": "Downloading",
+        "last_warning": "",
+        "have_warnings": "0",
+        "cache_art": "67",
+        "sizeleft": "2.1 GB",
+        "finishaction": null,
+        "paused_all": false,
+        "cache_size": "49 MB",
+        "newzbin_url": "www.newzbin2.es",
+        "new_release": "",
+        "pause_int": "0",
+        "mbleft": "2185.90",
+        "diskspace1": "10.42",
+        "scripts": [
+            "None",
+            "sabToSickBeard.exe"
+        ],
+        "categories": [
+            "*",
+            "anime",
+            "apps",
+            "books",
+            "consoles",
+            "couchpotato",
+            "emulation",
+            "games",
+            "misc",
+            "movies",
+            "music",
+            "pda",
+            "resources",
+            "tv"
+        ],
+        "darwin": false,
+        "timeleft": "0:18:32",
+        "mb": "2436.17",
+        "noofslots": 1,
+        "eta": "04:25 AM Sun 05 Feb",
+        "nzb_quota": "",
+        "loadavg": "",
+        "cache_max": "134217728",
+        "kbpersec": "2012.84",
+        "speedlimit": "",
+        "webdir": "C:\\Program Files (x86)\\SABnzbd\\interfaces\\smpl\\templates",
+        "queue_details": "0",
+        "diskspace2": "10.42"
+    }
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;queue&gt;
+  &lt;active_lang&gt;en&lt;/active_lang&gt;
+  &lt;paused&gt;False&lt;/paused&gt;
+  &lt;session&gt;1234567890abcdef0987654321fedcba&lt;/session&gt;
+  &lt;restart_req&gt;False&lt;/restart_req&gt;
+  &lt;power_options&gt;True&lt;/power_options&gt;
+  &lt;slots&gt;
+    &lt;slot&gt;
+      &lt;status&gt;Downloading&lt;/status&gt;
+      &lt;index&gt;0&lt;/index&gt;
+      &lt;eta&gt;04:22 AM Sun 05 Feb&lt;/eta&gt;
+      &lt;missing&gt;0&lt;/missing&gt;
+      &lt;avg_age&gt;4d&lt;/avg_age&gt;
+      &lt;script&gt;None&lt;/script&gt;
+      &lt;msgid&gt;&lt;/msgid&gt;
+      &lt;verbosity&gt;&lt;/verbosity&gt;
+      &lt;mb&gt;2436.17&lt;/mb&gt;
+      &lt;sizeleft&gt;2.1 GB&lt;/sizeleft&gt;
+      &lt;filename&gt;
+        Foreverworld_2011_R5_DVDRip_XVID_AC3_HQ_Hive_CM8
+      &lt;/filename&gt;
+      &lt;priority&gt;Normal&lt;/priority&gt;
+      &lt;cat&gt;movies&lt;/cat&gt;
+      &lt;mbleft&gt;2143.81&lt;/mbleft&gt;
+      &lt;timeleft&gt;0:16:01&lt;/timeleft&gt;
+      &lt;percentage&gt;12&lt;/percentage&gt;
+      &lt;nzo_id&gt;SABnzbd_nzo_io6gzf&lt;/nzo_id&gt;
+      &lt;unpackopts&gt;3&lt;/unpackopts&gt;
+      &lt;size&gt;2.4 GB&lt;/size&gt;
+    &lt;/slot&gt;
+  &lt;/slots&gt;
+  &lt;speed&gt;2.2 M&lt;/speed&gt;
+  &lt;helpuri&gt;http://wiki.sabnzbd.org/&lt;/helpuri&gt;
+  &lt;size&gt;2.4 GB&lt;/size&gt;
+  &lt;uptime&gt;1h&lt;/uptime&gt;
+  &lt;refresh_rate&gt;&lt;/refresh_rate&gt;
+  &lt;limit&gt;0&lt;/limit&gt;
+  &lt;isverbose&gt;False&lt;/isverbose&gt;
+  &lt;start&gt;0&lt;/start&gt;
+  &lt;finish&gt;0&lt;/finish&gt;
+  &lt;version&gt;0.6.15&lt;/version&gt;
+  &lt;new_rel_url&gt;&lt;/new_rel_url&gt;
+  &lt;diskspacetotal2&gt;74.43&lt;/diskspacetotal2&gt;
+  &lt;color_scheme&gt;white&lt;/color_scheme&gt;
+  &lt;diskspacetotal1&gt;74.43&lt;/diskspacetotal1&gt;
+  &lt;nt&gt;True&lt;/nt&gt;
+  &lt;status&gt;Downloading&lt;/status&gt;
+  &lt;last_warning&gt;&lt;/last_warning&gt;
+  &lt;have_warnings&gt;0&lt;/have_warnings&gt;
+  &lt;cache_art&gt;123&lt;/cache_art&gt;
+  &lt;sizeleft&gt;2.1 GB&lt;/sizeleft&gt;
+  &lt;finishaction&gt;None&lt;/finishaction&gt;
+  &lt;paused_all&gt;False&lt;/paused_all&gt;
+  &lt;cache_size&gt;90 MB&lt;/cache_size&gt;
+  &lt;newzbin_url&gt;www.newzbin2.es&lt;/newzbin_url&gt;
+  &lt;new_release&gt;&lt;/new_release&gt;
+  &lt;pause_int&gt;0&lt;/pause_int&gt;
+  &lt;mbleft&gt;2143.81&lt;/mbleft&gt;
+  &lt;diskspace1&gt;10.42&lt;/diskspace1&gt;
+  &lt;scripts&gt;
+    &lt;script&gt;None&lt;/script&gt;
+    &lt;script&gt;sabToSickBeard.exe&lt;/script&gt;
+  &lt;/scripts&gt;
+  &lt;categories&gt;
+    &lt;category&gt;*&lt;/category&gt;
+    &lt;category&gt;anime&lt;/category&gt;
+    &lt;category&gt;apps&lt;/category&gt;
+    &lt;category&gt;books&lt;/category&gt;
+    &lt;category&gt;consoles&lt;/category&gt;
+    &lt;category&gt;couchpotato&lt;/category&gt;
+    &lt;category&gt;emulation&lt;/category&gt;
+    &lt;category&gt;games&lt;/category&gt;
+    &lt;category&gt;misc&lt;/category&gt;
+    &lt;category&gt;movies&lt;/category&gt;
+    &lt;category&gt;music&lt;/category&gt;
+    &lt;category&gt;pda&lt;/category&gt;
+    &lt;category&gt;resources&lt;/category&gt;
+    &lt;category&gt;tv&lt;/category&gt;
+  &lt;/categories&gt;
+  &lt;darwin&gt;False&lt;/darwin&gt;
+  &lt;timeleft&gt;0:16:01&lt;/timeleft&gt;
+  &lt;mb&gt;2436.17&lt;/mb&gt;
+  &lt;noofslots&gt;1&lt;/noofslots&gt;
+  &lt;eta&gt;04:22 AM Sun 05 Feb&lt;/eta&gt;
+  &lt;nzb_quota&gt;&lt;/nzb_quota&gt;
+  &lt;loadavg&gt;&lt;/loadavg&gt;
+  &lt;cache_max&gt;134217728&lt;/cache_max&gt;
+  &lt;kbpersec&gt;2283.68&lt;/kbpersec&gt;
+  &lt;speedlimit&gt;&lt;/speedlimit&gt;
+  &lt;webdir&gt;C:\Program Files (x86)\SABnzbd\interfaces\smpl\templates&lt;/webdir&gt;
+  &lt;queue_details&gt;0&lt;/queue_details&gt;
+  &lt;diskspace2&gt;10.42&lt;/diskspace2&gt;
+&lt;/queue&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+
+        <a name="queuedelete"></a>
+            <h1 class="title">
+                queue.delete
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-12<br/>
+                <span class="version">added: <b>0.3?</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    Delete an item from the SABnzbd queue.
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                          <span class="param">name <span>required</span></span>
+                          <p>
+                            delete
+                          </p>
+                        </div>
+                        <div class="parameter">
+                          <span class="param">value <span>required</span></span>
+                          <p>
+                            multiple ids can be passed when delimited by ,
+                          </p>
+                          <p>
+                            <ul>
+                              <li>all - all the queue items</li>
+                              <li>SABnzbd_nzo_###### - unique item id</li>
+                            </ul>
+                          </p>
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=queue&amp;name=delete&amp;value=SABnzbd_nzo_smegbo,SABnzbd_nzo_op3shf</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "status": true
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;result&gt;
+    &lt;status>True&lt;/status&gt;
+&lt;/result&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+
+        <a name="restart"></a>
+            <h1 class="title">
+                restart
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-10<br/>
+                <span class="version">added: <b>0.5</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    Restart SABnzbd.
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=restart</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "status": true
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;result&gt;
+    &lt;status>True&lt;/status&gt;
+&lt;/result&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+
+        <a name="resume"></a>
+            <h1 class="title">
+                resume
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-05<br/>
+                <span class="version">added: <b>0.3</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    Resume the SABnzbd queue (globally).
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=resume</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "status": true
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;result&gt;
+    &lt;status>True&lt;/status&gt;
+&lt;/result&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+        <a name="rss_now"></a>
+            <h1 class="title">
+                rss_now
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-10<br/>
+                <span class="version">added: <b>0.5?</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    Obtain RSS feed items in SABnzbd.
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=rss_now</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "status": true
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;result&gt;
+    &lt;status>True&lt;/status&gt;
+&lt;/result&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+
+        <a name="shutdown"></a>
+            <h1 class="title">
+                shutdown
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-05<br/>
+                <span class="version">added: <b>0.3</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    Shut down SABnzbd.
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=shutdown</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "status": true
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;result&gt;
+    &lt;status>True&lt;/status&gt;
+&lt;/result&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+
+        <a name="test_email"></a>
+            <h1 class="title">
+                test_email
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-10<br/>
+                <span class="version">added: <b>0.5?</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    Send a test e-mail notification using the settings defined in SABnzbd.
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=test_email</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "status": true
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;result&gt;
+    &lt;status>True&lt;/status&gt;
+&lt;/result&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+
+        <a name="test_notif"></a>
+            <h1 class="title">
+                test_notif
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-11<br/>
+                <span class="version">added: <b>0.7</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    Send a test Growl notification using the settings defined in SABnzbd.
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=test_notif</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "status": false,
+    "error": "Cannot register with Growl [Errno 10061] No connection could be made because the target machine actively refused it"
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;result&gt;
+  &lt;status&gt;False&lt;/status&gt;
+  &lt;error&gt;Cannot register with Growl [Errno 10061] No connection could be made because the target machine actively refused it&lt;/error&gt;
+&lt;/result&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+
+        <a name="version"></a>
+            <h1 class="title">
+                version
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-05<br/>
+                <span class="version">added: <b>0.4</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    Display the version of SABnzbd currently running.
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=version</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "version": "0.6.15"
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;version&gt;0.6.15&lt;/version&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+        <a name="warnings"></a>
+            <h1 class="title">
+                warnings
+            </h1>
+            <div class="updated">
+                Updated on 2012-02-05<br/>
+                <span class="version">added: <b>0.4</b></span>
+            </div>
+            <div>
+                <p class="summary">
+                    Get latest warnings in SABnzbd.
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <tt>/sabnzbd/api?apikey=1234&amp;mode=warnings</tt>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+{
+    "warnings": [
+        "2012-02-10 20:05:06,641\nERROR\nToo many connections to server ssl-eu.astraweb.com:563",
+        "2012-02-10 20:05:06,740\nERROR\nToo many connections to server ssl-eu.astraweb.com:563",
+        "2012-02-10 20:05:06,842\nERROR\nToo many connections to server ssl-eu.astraweb.com:563",
+        "2012-02-10 20:05:06,944\nERROR\nToo many connections to server ssl-eu.astraweb.com:563",
+        "2012-02-10 20:05:07,043\nERROR\nToo many connections to server ssl-eu.astraweb.com:563",
+        "2012-02-10 20:05:07,144\nERROR\nToo many connections to server ssl-eu.astraweb.com:563",
+        "2012-02-10 20:05:07,244\nERROR\nToo many connections to server ssl-eu.astraweb.com:563",
+        "2012-02-10 20:05:07,345\nERROR\nToo many connections to server ssl-eu.astraweb.com:563",
+        "2012-02-10 20:05:07,447\nERROR\nToo many connections to server ssl-eu.astraweb.com:563",
+        "2012-02-10 20:05:07,548\nERROR\nToo many connections to server ssl-eu.astraweb.com:563",
+        "2012-02-10 20:05:07,648\nERROR\nToo many connections to server ssl-eu.astraweb.com:563",
+        "2012-02-10 20:05:07,749\nERROR\nToo many connections to server ssl-eu.astraweb.com:563",
+        "2012-02-10 20:05:07,848\nERROR\nToo many connections to server ssl-eu.astraweb.com:563",
+        "2012-02-10 20:05:07,950\nERROR\nToo many connections to server ssl-eu.astraweb.com:563",
+        "2012-02-10 20:05:08,052\nERROR\nToo many connections to server ssl-eu.astraweb.com:563",
+        "2012-02-10 21:09:22,739\nERROR\nToo many connections to server ssl-eu.astraweb.com:563"
+    ]
+}
+</pre>
+<pre class="example XML">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;warnings&gt;
+  &lt;warning&gt;2012-02-10 20:05:06,740 ERROR Too many connections to server ssl-eu.astraweb.com:563&lt;/warning&gt;
+  &lt;warning&gt;2012-02-10 20:05:06,842 ERROR Too many connections to server ssl-eu.astraweb.com:563&lt;/warning&gt;
+  &lt;warning&gt;2012-02-10 20:05:06,944 ERROR Too many connections to server ssl-eu.astraweb.com:563&lt;/warning&gt;
+  &lt;warning&gt;2012-02-10 20:05:07,043 ERROR Too many connections to server ssl-eu.astraweb.com:563&lt;/warning&gt;
+  &lt;warning&gt;2012-02-10 20:05:07,144 ERROR Too many connections to server ssl-eu.astraweb.com:563&lt;/warning&gt;
+  &lt;warning&gt;2012-02-10 20:05:07,244 ERROR Too many connections to server ssl-eu.astraweb.com:563&lt;/warning&gt;
+  &lt;warning&gt;2012-02-10 20:05:07,345 ERROR Too many connections to server ssl-eu.astraweb.com:563&lt;/warning&gt;
+  &lt;warning&gt;2012-02-10 20:05:07,447 ERROR Too many connections to server ssl-eu.astraweb.com:563&lt;/warning&gt;
+  &lt;warning&gt;2012-02-10 20:05:07,548 ERROR Too many connections to server ssl-eu.astraweb.com:563&lt;/warning&gt;
+  &lt;warning&gt;2012-02-10 20:05:07,648 ERROR Too many connections to server ssl-eu.astraweb.com:563&lt;/warning&gt;
+  &lt;warning&gt;2012-02-10 20:05:07,749 ERROR Too many connections to server ssl-eu.astraweb.com:563&lt;/warning&gt;
+  &lt;warning&gt;2012-02-10 20:05:07,848 ERROR Too many connections to server ssl-eu.astraweb.com:563&lt;/warning&gt;
+  &lt;warning&gt;2012-02-10 20:05:07,950 ERROR Too many connections to server ssl-eu.astraweb.com:563&lt;/warning&gt;
+  &lt;warning&gt;2012-02-10 20:05:08,052 ERROR Too many connections to server ssl-eu.astraweb.com:563&lt;/warning&gt;
+  &lt;warning&gt;2012-02-10 21:09:22,739 ERROR Too many connections to server ssl-eu.astraweb.com:563&lt;/warning&gt;
+  &lt;warning&gt;2012-02-10 21:09:30,469 ERROR Too many connections to server ssl-eu.astraweb.com:563&lt;/warning&gt;
+  &lt;warning&gt;2012-02-10 21:09:30,571 ERROR Too many connections to server ssl-eu.astraweb.com:563&lt;/warning&gt;
+  &lt;warning&gt;2012-02-10 21:09:38,269 ERROR Too many connections to server ssl-eu.astraweb.com:563&lt;/warning&gt;
+  &lt;warning&gt;2012-02-10 21:09:46,286 ERROR Too many connections to server ssl-eu.astraweb.com:563&lt;/warning&gt;
+  &lt;warning&gt;2012-02-10 21:09:46,388 ERROR Too many connections to server ssl-eu.astraweb.com:563&lt;/warning&gt;
+&lt;/warnings&gt;
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div>
+
+    </div> <!-- end api-content -->
+
+    <hr/><br/>
+
+        <a name="output"></a>
+            <h1 class="header">Output Formats</h1>
+            <div class="updated">
+                Updated on 2012-02-10<br/>
+            </div>
+            <div class="content">
+                <p class="summary">
+                    There is a global option called 'output' that may be set to change the formatting of the returned API response.<br/>
+                    XML does not allow for children elements if the root does not have a keyword.<br/>
+                    For this reason the root (outer most) XML keyword will be 'result' when needed, as shown below.<br/>
+                </p>
+                <div class="field field-doc-params">
+                    <h2>
+                        Parameters
+                    </h2>
+                    <div>
+                        <div class="parameter">
+                          <span class="param">output <span>optional</span></span>
+                          <p>
+                            json, xml, <span class="default">[</span>text<span class="default">]</span>
+                          </p>
+                        </div>
+                    </div><!-- /parameters -->
+                </div><!-- /field-doc-params -->
+                <div class="field">
+                    <h2>
+                        Example Request
+                    </h2>
+                    <ul class="tabs">
+                        <li><a href="#">JSON</a></li>
+                        <li><a href="#">XML</a></li>
+                        <li><a href="#">Plain Text</a></li>
+                    </ul>
+                    <div class="panes">
+<pre class="example JSON">
+<span class="nocode"><tt>/sabnzbd/api?apikey=1234&amp;mode=addlocalfile&amp;name=D:\file.ext&amp;<b>output=json</b></tt></span>
+{
+    "status": 0,
+    "nzo_ids": [
+        "SABnzbd_nzo_ocz8vt"
+    ]
+}
+</pre>
+<pre class="example XML">
+<span class="nocode"><tt>/sabnzbd/api?apikey=1234&amp;mode=addlocalfile&amp;name=D:\file.ext&amp;<b>output=xml</b></tt></span>
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;result&gt;
+  &lt;status&gt;0&lt;/status&gt;
+  &lt;nzo_ids&gt;
+    &lt;item&gt;SABnzbd_nzo_ocz8vt&lt;/item&gt;
+  &lt;/nzo_ids&gt;
+&lt;/result&gt;
+</pre>
+<pre class="example TEXT">
+<span class="nocode"><tt>/sabnzbd/api?apikey=1234&amp;mode=addlocalfile&amp;name=D:\file.ext&amp;<b>output=text</b></tt></span>
+{'status': 0, 'nzo_ids': ['SABnzbd_nzo_ocz8vt']}
+</pre>
+                    </div><!-- /panes -->
+                </div><!-- /field -->
+            </div><!-- /content -->
+
+    <hr/><br/>
+    <a name="apidisclaimer"></a>
+    <h1 class="header">Disclaimer</h1>
+        <div class="content">
+            <p>
+                xxx
+            </p>
+            <br/>
+        </div>
+
+    </div>
+  </div> <!-- end container -->
+
+    <script>
+        $(function() {
+            $("ul.tabs").tabs("div.panes > pre");
+        });
+    </script>
+
+  </body>
+</html>
