@@ -30,7 +30,7 @@ div.field h2{margin-bottom:0.5em;}
 .updated{color:#777;font-style:italic;font-weight:400;margin-bottom:1em;float:right;margin-top:1em;vertical-align:middle;}
 #api-overview .views-field-title{width:30%;text-transform:lowercase;padding-left:15px;}
 #api-overview .views-field-body{width:70%;text-transform:lowercase;}
-pre.example{background-color:#F8F4E7;border:1px solid #E4E0D3;color:#333;overflow:auto;margin:0 0 6em;padding:10px;max-height:525px;}
+pre.example{background-color:#F8F4E7;border:1px solid #E4E0D3;color:#333;overflow:auto;margin:0 0 6em;padding:10px;max-height:425px;}
 tt { color: #990000; font-size: 14px; }
 .ui-tabs-panel { overflow-x: auto; padding: 0.5em; }
 span.default{color:#00C;}
