@@ -80,6 +80,9 @@ span.opt {
 span.version {
   color: #444;
 }
+.accordion-group {
+  background-color: #fff;
+}
 .accordion-body {
   background-color: #F8F4E7;
 }
