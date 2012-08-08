@@ -114,3 +114,17 @@ body {
   background-color: #fff;
   border: 1px solid #ccc;
 }
+
+a.headerlink {
+  visibility: hidden;
+  color: #ccc;
+  margin-left: 6px;
+  padding: 0 4px;
+  text-decoration: none;
+}
+a.headerlink:hover {
+  color: #0088CC;
+}
+h1:hover > a.headerlink {
+  visibility: visible;
+}
