@@ -128,3 +128,11 @@ a.headerlink:hover {
 h1:hover > a.headerlink {
   visibility: visible;
 }
+div.parse {
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0;
+     -moz-box-shadow: 0;
+          box-shadow: 0;
+}
+}
