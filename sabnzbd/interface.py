@@ -1490,6 +1490,7 @@ class ConfigGeneral:
         conf["local_ranges"] = cfg.local_ranges.get_string()
         conf["my_lcldata"] = cfg.admin_dir.get_clipped_path()
         conf["caller_url"] = cherrypy.request.base + cfg.url_base()
+        conf["log_level"] = cfg.log_level()
 
         template = Template(
             file=os.path.join(sabnzbd.WEB_DIR_CONFIG, "config_general.tmpl"),
@@ -1510,6 +1511,7 @@ class ConfigGeneral:
 
         # Handle special options
         cfg.password.set(kwargs.get("password"))
+        cfg.log_level.set(kwargs.get("log_level"))
 
         web_dir = kwargs.get("web_dir")
         change_web_dir(web_dir)

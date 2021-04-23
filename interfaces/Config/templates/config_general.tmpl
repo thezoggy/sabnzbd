@@ -99,6 +99,32 @@
             </fieldset>
         </div>
     </div>
+
+    <div class="section">
+        <div class="col2">
+            <h3>$T('logging') <a href="$helpuri$help_uri" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
+            <p><b>$T('restartRequired')</b></p>
+        </div><!-- /col2 -->
+        <div class="col1">
+            <fieldset>
+                <div class="field-pair advanced-settings">
+                    <label class="config" for="log_level">$T('opt-log_level')</label>
+                    <select name="log_level" id="log_level">
+                        <option value="-1" <!--#if $log_level == "-1" then "selected" else ""#-->>$T('Glitter-disabled')</option>
+                        <option value="0" <!--#if $log_level == "0" then "selected" else ""#-->>$T('log-errWarn')</option>
+                        <option value="1" <!--#if $log_level == "1" then "selected" else ""#-->>$T('log-info')</option>
+                        <option value="2" <!--#if $log_level == "2" then "selected" else ""#-->>$T('log-debug')</option>
+                    </select>
+                    <span class="desc">$T('explain-logging')</span>
+                </div>
+                <div class="field-pair">
+                    <button class="btn btn-default saveButton"><span class="glyphicon glyphicon-ok"></span> $T('button-saveChanges')</button>
+                    <button class="btn btn-default sabnzbd_restart"><span class="glyphicon glyphicon-refresh"></span> $T('button-restart') SABnzbd</button>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+
     <div class="section">
         <div class="col2">
             <h3>$T('security') <a href="$helpuri$help_uri" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
