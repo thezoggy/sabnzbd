@@ -142,7 +142,7 @@ jobs:
         
         PYINSTALLER_COMPILE_BOOTLOADER=1 pip3 install --upgrade -r builder/requirements.txt --no-binary pyinstaller
     - name: Import macOS codesign certificates
-      uses: apple-actions/import-codesign-certs@v1
+      uses: apple-actions/import-codesign-certs@v2
       if: env.SIGNING_AUTH
       with:
         p12-file-base64: ${{ secrets.CERTIFICATES_P12 }}
